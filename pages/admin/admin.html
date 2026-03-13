@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>12COMP firebase</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- stylesheets *******************************************-->
+    <link rel="stylesheet" type="text/css" href="https://www.w3schools.com/w3css/4/w3.css">
+    <!-- <link rel="stylesheet" type="text/css" href="/style.css"> -->
+    <link href='https://fonts.googleapis.com/css?family=M PLUS Code Latin' rel='stylesheet'>
+
+    <!-- firebase start ****************************************-->
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+    <!-- firebase end ******************************************-->
+</head>
+
+<!--*************************************************************
+  BODY
+**************************************************************-->
+<body>
+    <side-bar id="side-bar">
+        <a id="sb_title">"Player name"</a>
+        <button class="sb_button" onclick="fb_Logout()" >Log Out</button>
+        <button class="sb_button" onclick="location.href = '../gameSelection/gameSelection.html'">Home</button>
+    </side-bar>
+
+    <header>
+      <h1 id="m_title">Admin Page </h1>
+    </header>
+
+    <main>
+      <subHeader>
+        <h1 id="m_subTitle" style="margin-top: 12%;">Select Command</h1>
+      </subHeader>      
+
+      <div class="m_container" style="padding-top: 1%;">
+        <form id="adminCommand">
+          <fieldset>
+            <legend>Choose a command:</legend>
+            <input type="radio" id="read" name="command" value="read">
+            <label for="read">Read</label><br>
+            <input type="radio" id="write" name="command" value="write">
+            <label for="write">Write</label>
+          </fieldset><br>
+          <label for="location">Location:</label>
+          <input type="text" id="location" name="location"><br>
+          <label for="data" style="margin-left:13px;">Data:</label>
+          <input type="text" id="data" name="data" style="margin-top:3px;"><br>
+          <button value="Submit" style="margin-left:10px; margin-right:10px;margin-top:7px;">Submit</button>
+        </form>
+      </div>
+    </main>
+
+    <!-- Your JS files & main module ***************************-->
+    <script type="module" src="./admin.mjs"></script>
+    <script type="module" src="../main/main.mjs"></script>
+</body>
+</html>
+<!--*************************************************************
+  END OF INDEX.HTML
+**************************************************************-->

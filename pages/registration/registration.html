@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>12COMP firebase</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- stylesheets *******************************************-->
+    <link rel="stylesheet" type="text/css" href="https://www.w3schools.com/w3css/4/w3.css">
+    <!-- <link rel="stylesheet" type="text/css" href="/style.css"> -->
+    <link href='https://fonts.googleapis.com/css?family=M PLUS Code Latin' rel='stylesheet'>
+
+    <!-- firebase start ****************************************-->
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+    <!-- firebase end ******************************************-->
+</head>
+
+<!--*************************************************************
+  BODY
+**************************************************************-->
+<body>
+  <header>
+    <h1 id="m_title">Registration </h1>
+  </header>
+
+    <main>
+      <subHeader>
+        <h1 id="m_subTitle" style="margin-top: 10%;">Please complete this form</h1>
+      </subHeader>      
+      <div class="m_container">
+        <form id="regForm">
+          
+          <label for="gameName" style="margin-left:22px;">Game Name:</label>
+          <input type="text" id="gameName" name="gameName"><br>
+          <label for="age" style="margin-left:50px;">Age:</label>
+          <input type="text" id="age" name="age"><br>
+          
+          <fieldset>
+            <legend>Pick Your gender:</legend>
+            <input type="radio" id="male" name="gender" value="male">
+            <label for="male">Male</label><br>
+            <input type="radio" id="female" name="gender" value="female">
+            <label for="female">Female</label><br>
+            <input type="radio" id="other" name="gender" value="other">
+            <label for="other">Other</label><br>
+          </fieldset><br>
+          <button value="Submit" style="margin-left:50px;margin-right:50px;">Submit</button>
+        </form>
+        <button onclick="location.href = '/index.html'" style="width:200px;">Back</button>
+      </div>
+    </main>
+
+    <!-- Your JS files & main module ***************************-->
+    <script type="module" src="./registration.mjs"></script>
+    <script type="module" src="../main/main.mjs"></script>
+</body>
+</html>
+<!--*************************************************************
+  END OF INDEX.HTML
+**************************************************************-->

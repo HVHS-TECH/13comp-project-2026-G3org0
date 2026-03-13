@@ -1,0 +1,137 @@
+/*-----------------------------------------------------------*
+// All functions associated with the side bar (sb_), info bar (ib_) leaderBoard (lb_)
+/*----------------------------------------------------------*/
+:root {
+  --text: #ffffff;
+  --sideBarColor:  rgb(99, 0, 152);
+  --infoBarColor:  rgb(99, 0, 152);
+  --navColor: #ffe5c0;
+  --backgroundColor: #fff4e5;
+  --buttonColor:  rgb(223, 113, 24);
+  --hovButtonColor:  rgb(214, 141, 76);
+}
+
+body {
+  font-family:'M PLUS Code Latin';
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: 100vh;
+  margin: 0;
+  background-color: var(--backgroundColor);
+}
+
+#side-bar {
+  background-color: var(--sideBarColor);
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
+  padding: 10px 15px;
+  width: 20%;
+  left: 0px;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+  font-size: 20px;
+  color: var(--text);
+  align-items: center;
+}
+
+#sb_title {
+  padding: 30px 1px;
+  font-size: 35px;
+}
+
+
+.sb_element {
+  font-family:'M PLUS Code Latin';
+  padding: 10px 15px;
+  margin: 7px 2px;
+  border-radius: 7px;
+  color: var(--text);
+  background-color: var(--buttonColor);;
+  transition: background-color 0.3s;
+  width: 220px;
+}
+
+.info-bar {
+  background-color: var(--sideBarColor);
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
+  margin: 0;
+  padding: 4px;
+  width: 20%;
+  right: 0px;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+  font-size: 25px;
+  color: var(--text);
+  align-items: center;
+}
+#ib_title {
+  padding: 30px 1px;
+  font-size: 35px;
+}
+.ib_element {
+  padding: 15px;
+}
+
+#m_title {
+  font-family:'M PLUS Code Latin';
+  font-size: 60px;
+}
+
+header {
+  background-color: var(--navColor);
+  padding:17px 55px;
+  display:flex;
+  justify-content:center;
+}
+
+#m_subTitle {
+  font-family:'M PLUS Code Latin';
+  font-size: 45px;
+}
+
+subHeader {
+  display:flex;
+  justify-content:center;
+}
+
+
+main {
+  margin-left:20%; 
+  margin-right:20%;
+  padding:1px 10px;
+}
+
+.m_container {
+  padding: 45px;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  }
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 7px;
+  background-color: var(--buttonColor);;
+  color: var(--text);
+  transition: background-color 0.3s;
+  width: 220px;
+  font-family:'M PLUS Code Latin';
+  margin: 7px 2px;
+}
+
+button:hover {
+  background-color: var(--hovButtonColor);
+}
+
+/*-----------------------------------------------------------*
+  Firebase status div styling
+/*----------------------------------------------------------*/
