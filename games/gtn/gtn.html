@@ -18,17 +18,19 @@
     </header>
 
     <section>
-        <form id="joinLobby">
-          
-          <label for="lobbyCode" ">Enter lobby code: </label>
-          <input type="text" id="lobbyCode" name="lobbyCode">
-
-          <button value="Submit">Submit</button>
-        </form>
+      
+      <form id="joinLobby">
+        
+        <label for="lobbyCode" ">Enter lobby code: </label>
+        <input type="text" id="lobbyCode" name="lobbyCode">
+        
+        <button value="Submit">Submit</button>
+      </form>
+      
+      <button onclick="hostGame()" >Host game</button> <br>
+      <button onclick="window.location.href='/pages/gameSelection/gameSelection.html'">Exit</button>  
     </section>
         
-    <button class="sb_button" onclick="fb_Logout()" >Log Out</button>
-
 
   <script type="module" src="./gtn.mjs"></script>
   <script type="module" src="/pages/main/main.mjs"></script>

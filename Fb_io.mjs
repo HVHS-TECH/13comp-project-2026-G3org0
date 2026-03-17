@@ -72,15 +72,14 @@ if (sessionStorage.getItem("userDetails") != null) {
     console.log('%c fb_initialise(): ', 
     'color: ' + COL_C + '; background-color: ' + COL_B + ';');
     const FB_GAMECONFIG = {
-      apiKey: "AIzaSyAzZNYkhvc3Jil5cxwUYZEv-t-fP0ZwR0s",
-      authDomain: "comp-2025-george-taylor.firebaseapp.com",
-      databaseURL: "https://comp-2025-george-taylor-default-rtdb.firebaseio.com",
-      projectId: "comp-2025-george-taylor",
-      storageBucket: "comp-2025-george-taylor.firebasestorage.app",
-      messagingSenderId: "869054825808",
-      appId: "1:869054825808:web:66e65a5f7922a5c11dd855",
-      measurementId: "G-LXDGSSYJ0N"
-    };
+    apiKey: "AIzaSyB-pYUkOfLB8fA0s1pYCZdMQ4U7i7Fadf0",
+    authDomain: "comp-2025-george-taylor-be24d.firebaseapp.com",
+    databaseURL: "https://comp-2025-george-taylor-be24d-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "comp-2025-george-taylor-be24d",
+    storageBucket: "comp-2025-george-taylor-be24d.firebasestorage.app",
+    messagingSenderId: "6475325797",
+    appId: "1:6475325797:web:39117eb196e136fca0418c"
+  };
     const FB_GAMEAPP = initializeApp(FB_GAMECONFIG);
   }
 

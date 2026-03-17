@@ -17,6 +17,27 @@
 /////////////////////////////////
 /*******************************************************/
 
+import { fb_readRecords, fb_writeRecords } 
+from "../../Fb_io.mjs";
+
+var lobbyID
+
+window.hostGame = hostGame();
+
+document.getElementById("joinLobby").addEventListener("submit", function(result) {
+    result.preventDefault();
+    //if (fb_readRecords("lobbies/" + joinLobby.lobbyCode)){
+
+    //}  
+    console.log(fb_readRecords("lobbies/" + joinLobby.lobbyCode.value))
+});
+
+function hostGame(){
+    lobbyID = crypto.randomUUID
+    console.log(lobbyID);
+}
+
+
 /*******************************************************/
 //  END OF Program
 /*******************************************************/
