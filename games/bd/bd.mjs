@@ -40,9 +40,8 @@ if ((localStorage.getItem("userDetails") !== null) && (localStorage.getItem("adm
 	const storedDetailsAdmin = localStorage.getItem("adminVal");
 	userDetails = JSON.parse(storedDetailsUsers);
 	adminVal = JSON.parse(storedDetailsAdmin);
-} else {
-	console.log("((localStorage.getItem('userDetails') !== null) && (localStorage.getItem('adminVal') !== null))")
 }
+
 /////Games
 var gameState = "start";
 
@@ -172,7 +171,6 @@ function draw() {
 		console.log(inactiveOrbs);
 	}
 	if (kb.pressed('h')){
-		console.log("leaving game");
 		window.location.href = '/index.html';
 	}
 
@@ -285,7 +283,6 @@ function draw() {
 		activeEnemies.forEach(enemy => {
 			enemy.move();
 			if(enemy.getSprite().overlaps(player.getSprite())){
-				console.log("Contact");
 				player.takeDamage();
 			}
 		})
@@ -544,9 +541,6 @@ async function spawnGameOverUi(){
 	UiArray.push(restartButton);
 	UiArray.push(scoreSprite);
 
-	//const PATH = userDetails.uid+"/topScore";
-
-//console.log("path + " + PATH)
 	fb_readRecords("/gameList/bd/scores/" + userDetails.uid).then((snapshot) => {
 		if (snapshot.val() <= player.getScore()){
 			fb_writeRecords("/gameList/bd/scores/" + userDetails.uid, player.getScore())
@@ -605,10 +599,7 @@ function spawnEnemy(){
 		let enemy = inactiveEnemies.shift();
 		activeEnemies.push(enemy);
 		enemy.spawn(BASICENEMY);
-	} else {
-		console.log("outta enemys");
 	}
-}
 
 ///////////////////////////////////
 //Name: spawnOrb()
@@ -635,8 +626,6 @@ function spawnBullet(){
 		let bullet = inactiveBullets.shift(); 
 		activeBullets.push(bullet);
 		bullet.spawn();
-	} else{
-		console.log("outta bullets");
 	}
 }
 
@@ -746,7 +735,6 @@ class Player{
 	}
 	levelup(){
 		this.levelMult = this.levelMult*1.5;
-		console.log(this.levelMult)
 		this.xp += - this.LEVELUPTHRESHHOLD;
 	}
 	hit(){
@@ -783,12 +771,10 @@ class Player{
 	takeDamage(){
 		if (this.isIFrames == false){	
 			this.health += -1;
-			console.log("player.hp = " + this.health);
 			if(this.health >= 1){
 				this.isIFrames = true;
 				showPlayerLives(); 
 			} else {
-				console.log("dead");
 			this.death();
 		}
 	}
@@ -871,7 +857,6 @@ class BgTiles{
 		this.sprite = new Sprite((column - 10) * this.int, (row - 10) * this.int, this.int, this.int, 'n');
 		this.sprite.image = (bg);
 		this.sprite.image.resize(this.int, this.int);
-		console.log(column)
 	}
 	death(){this.sprite.remove();}
 	getGun(){return this.gun}

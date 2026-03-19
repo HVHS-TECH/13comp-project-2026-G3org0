@@ -17,12 +17,18 @@
 /////////////////////////////////
 /*******************************************************/
 
-import { fb_readRecords, fb_writeRecords } 
+import { fb_readRecords, fb_writeRecords, userDetails } 
 from "../../Fb_io.mjs";
 
-var lobbyID
+window.hostGame = hostGame;
+window.returnToMenu = returnToMenu;
 
-window.hostGame = hostGame();
+var lobbyDetails;
+
+if (sessionStorage.getItem("lobbyDetails") != null) {
+  lobbyDetails = JSON.parse(sessionStorage.getItem("lobbyDetails"));
+  console.log(lobbyDetails); 
+}
 
 document.getElementById("joinLobby").addEventListener("submit", function(result) {
     result.preventDefault();
@@ -32,9 +38,18 @@ document.getElementById("joinLobby").addEventListener("submit", function(result)
     console.log(fb_readRecords("lobbies/" + joinLobby.lobbyCode.value))
 });
 
-function hostGame(){
-    lobbyID = crypto.randomUUID
+async function hostGame(){
+    var lobbyID = Math.floor(Math.random() * 10000);
     console.log(lobbyID);
+    fb_writeRecords("lobbies/" + lobbyID + "/users/" + userDetails.uid, true);
+    fb_writeRecords("lobbies/" + lobbyID + "/state/" , "lobby");
+    sessionStorage.setItem("lobbyDetails", JSON.stringify(await fb_readRecords("lobbies/" + lobbyID)));
+    window.location.href='./gtnLobby.html'; 
+}
+
+function returnToMenu(){
+    sessionStorage.clear("lobbyDetails");
+    window.location.href='./gtn.html'
 }
 
 

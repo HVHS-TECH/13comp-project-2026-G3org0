@@ -54,9 +54,6 @@ export var adminVal;
 if (sessionStorage.getItem("userDetails") != null) {
   userDetails = JSON.parse(sessionStorage.getItem("userDetails"));
   adminVal = JSON.parse(sessionStorage.getItem("adminVal"));
-  console.log(userDetails); 
-  console.log("AdminVal:  " + adminVal); 
-
 }
 /**************************************************************/
 // Functions
@@ -98,7 +95,6 @@ function fb_authenticate(){
   PROVIDER.setCustomParameters({});
 
   return signInWithPopup(AUTH, PROVIDER).then((result) => {
-    console.log("Autherising");
     userDetails.displayName = result.user.displayName
     userDetails.email = result.user.email
     userDetails.photoUrl = result.user.photoURL
@@ -106,7 +102,6 @@ function fb_authenticate(){
     fb_readRecords("adminUsers/" + userDetails.uid).then((snapshot) => {
       adminVal = (snapshot != null);
       sessionStorage.setItem("adminVal", adminVal);
-      console.log(JSON.parse(sessionStorage.getItem("adminVal")));
     });
         
     sessionStorage.setItem("userDetails", JSON.stringify(userDetails));
@@ -177,7 +172,6 @@ function fb_writeRecords(pathKey, data) {
   const REF = ref(getDatabase(), pathKey);
   console.log("writing: " + data + "  To " + pathKey)  
     return set(REF, data).then(() => {
-        console.log("Set :)")
     }).catch((error) => {
         console.log("error" + " :(")
     });
@@ -201,7 +195,6 @@ function fb_readRecords(pathKey) {
   return get(dbReference)
     .then((snapshot) => {
       if (snapshot.val() != null) {
-        console.log("Snapshot value:", snapshot.val());
         return snapshot;
       } else {
         console.log("No data found.");
