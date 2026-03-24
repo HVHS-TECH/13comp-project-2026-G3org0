@@ -95,6 +95,7 @@ function fb_authenticate(){
   PROVIDER.setCustomParameters({});
 
   return signInWithPopup(AUTH, PROVIDER).then((result) => {
+    console.log("Autherising");
     userDetails.displayName = result.user.displayName
     userDetails.email = result.user.email
     userDetails.photoUrl = result.user.photoURL
@@ -102,6 +103,7 @@ function fb_authenticate(){
     fb_readRecords("adminUsers/" + userDetails.uid).then((snapshot) => {
       adminVal = (snapshot != null);
       sessionStorage.setItem("adminVal", adminVal);
+      console.log(JSON.parse(sessionStorage.getItem("adminVal")));
     });
         
     sessionStorage.setItem("userDetails", JSON.stringify(userDetails));
