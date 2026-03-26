@@ -251,12 +251,10 @@ function fb_attemptLogIn() {
       fb_readRecords("/userDetails/" + userDetails.uid).then((snapshot) => {
         userDetails = snapshot.val();
         sessionStorage.setItem("userDetails", JSON.stringify(userDetails));
-        console.log('./pages/gameSelection/gameSelection.html');
-        //window.location.href = './pages/gameSelection/gameSelection.html';
+        window.location.href = './pages/gameSelection/gameSelection.html';
       })
     } else {
-      console.log('./pages/registration/registration.html')
-        //window.location.href = './pages/registration/registration.html';
+      window.location.href = 'pages/registration/registration.html';
     }
   })
 }
