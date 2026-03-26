@@ -153,7 +153,7 @@ function fb_Logout() {
   const AUTH = getAuth();
     signOut(AUTH).then(() => {
         console.log("Loged out")
-        window.location.href = '/index.html';
+        window.location.href = '.../index.html';
         sessionStorage.clear();
     })
     .catch((error) => {
