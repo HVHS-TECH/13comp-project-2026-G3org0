@@ -20,9 +20,6 @@
 import { fb_readRecords, fb_writeRecords, userDetails } 
 from "../../Fb_io.mjs";
 
-window.hostGame = hostGame;
-window.returnToMenu = returnToMenu;
-window.addJoinListener = addJoinListener;
 
 var lobbyDetails;
 
@@ -59,10 +56,20 @@ function returnToMenu(){
     window.location.href='./gtn.html'
 }
 
+function blah(){
+    fb_writeRecords("a", "test");
+}
+
+
+
 if (window.href == "games/gtn/gtn.html"){
     addJoinListener();
 }
 
+window.hostGame = hostGame;
+window.returnToMenu = returnToMenu;
+window.addJoinListener = addJoinListener;
+window.blah = blah;
 
 /*******************************************************/
 //  END OF Program

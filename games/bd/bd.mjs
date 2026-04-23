@@ -594,7 +594,7 @@ function moveUi(){
 //Input: N/A
 //Output:N/A
 /////////////////////////////////
-function spawnEnemy(){
+function spawnEnemy(){        
 	if(inactiveEnemies.length > 0){
 		let enemy = inactiveEnemies.shift();
 		activeEnemies.push(enemy);

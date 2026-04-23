@@ -22,7 +22,7 @@ console.log('%c main.mjs',
 import {
     fb_attemptLogIn,
     fb_authenticate, fb_detectLoginChange,
-    fb_initialise, fb_Logout, userDetails
+    fb_initialise, fb_Logout, fb_writeRecords, userDetails
 } from '../../Fb_io.mjs';
 /**************************************************************/
 // Window Functions

@@ -5,12 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- stylesheets *******************************************-->
   <!--<link rel="stylesheet" href="/css/style.css"> -->
+  
 </head>
 
 <!--*************************************************************
-  BODY
+BODY
 **************************************************************-->
 <body>
+  <script type="module" src="/Fb_io.mjs"></script>
+  <script type="module" src="/games/gtn/gtn.mjs"></script>
+  <script type="module" src="../../pages/main/main.mjs"></script>
     
     <header>
         <h1 id="title">Guess The Number</h1>
@@ -20,19 +24,17 @@
       
       <form id="joinLobby">
         
-        <label for="lobbyCode" ">Enter lobby code: </label>
+        <!-- <label for="lobbyCode" ">Enter lobby code: </label> -->
         <input type="text" id="lobbyCode" name="lobbyCode">
         
         <button value="Submit">Submit</button>
       </form>
       
-      <button onclick="hostGame()" >Host game</button> <br>
+      <button onclick=hostGame()>Host game</button> <br>
       <button onclick="window.location.href='/pages/gameSelection/gameSelection.html'">Exit</button>  
+      <button onclick=blah()>Blah</button>
     </section>
         
-
-  <script type="module" src="./gtn.mjs"></script>
-  <script type="module" src="./pages/main/main.mjs"></script>
   </body>
 </html>
 <!--*************************************************************
