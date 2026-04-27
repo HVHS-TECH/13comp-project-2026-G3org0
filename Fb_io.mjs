@@ -254,7 +254,7 @@ function fb_attemptLogIn() {
         window.location.href = './pages/gameSelection/gameSelection.html';
       })
     } else {
-      window.location.href = 'pages/registration/registration.html';
+      window.location.href = './pages/registration/registration.html';
     }
   })
 }

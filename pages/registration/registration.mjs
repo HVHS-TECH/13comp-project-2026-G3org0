@@ -25,6 +25,7 @@ import {fb_registerDetails} from '../../Fb_io.mjs';
 /**************************************************************/
 ///if form submitted, attempt to validation
 document.getElementById("regForm").addEventListener("submit", function(result) {
+    onsubmit="return false;" 
     result.preventDefault();
     const gameName = result.target.gameName.value;
     const age = result.target.age.value;
