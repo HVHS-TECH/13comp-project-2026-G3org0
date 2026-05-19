@@ -78,7 +78,10 @@ if (sessionStorage.getItem("userDetails") != null) {
     appId: "1:6475325797:web:39117eb196e136fca0418c"
   };
     const FB_GAMEAPP = initializeApp(FB_GAMECONFIG);
+  getDatabase(FB_GAMEAPP);
   }
+
+
 
 ///////////////////////////////////
 //Name:fb_authenticate()
@@ -147,13 +150,20 @@ function fb_detectLoginChange() {
 //Input: N/A
 //Output:N/A
 ////////////////////////////////
-function fb_Logout() {
-  console.log('%c fb_Logout(): ', 
-  'color: ' + COL_C + '; background-color: ' + COL_B + ';');
+function fb_Logout(repeats) {
+  //console.log('%c fb_Logout():', 
+  //'color: ' + COL_C + '; background-color: ' + COL_B + ';');
+  console.log(repeats);
+
+  var indexPageAddrease = "index.html";
+  for (var i = 0; i < repeats; i++){
+    indexPageAddrease = "../" + indexPageAddrease;
+  }
+  
   const AUTH = getAuth();
     signOut(AUTH).then(() => {
         console.log("Loged out")
-        window.location.href = '.../index.html';
+        window.location.href = indexPageAddrease;
         sessionStorage.clear();
     })
     .catch((error) => {
@@ -274,7 +284,7 @@ function fb_registerDetails(gameName, age, gender){
     userDetails.gender = gender;
     sessionStorage.setItem("userDetails", JSON.stringify(userDetails));
     fb_writeRecords("userDetails/" + userDetails.uid, userDetails).then(() => {
-    window.location.href = "./pages/gameSelection/gameSelection.html"
+    window.location.href = "../../pages/gameSelection/gameSelection.html"
     })
 }
 

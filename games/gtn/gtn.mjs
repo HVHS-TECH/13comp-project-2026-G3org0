@@ -24,31 +24,36 @@ from "../../Fb_io.mjs";
 var lobbyDetails;
 
 if (sessionStorage.getItem("lobbyDetails") != null) {
-  lobbyDetails = JSON.parse(sessionStorage.getItem("lobbyDetails"));
+  //lobbyDetails = JSON.parse(sessionStorage.getItem("lobbyDetails"));
   console.log(lobbyDetails); 
 }
 
 function addJoinListener(){
-    document.getElementById("joinLobby").addEventListener("submit", function(result) {
-        result.preventDefault();
-        
-        console.log(fb_readRecords("lobbies/" + joinLobby.lobbyCode.value))
+document.getElementById("joinLobby").addEventListener("submit", async (result) => {
+    result.preventDefault();
+    lobbyDetails = await fb_readRecords("lobbies/" + joinLobby.lobbyCode.value);
+    sessionStorage.setItem("lobbyDetails", JSON.stringify(lobbyDetails));
+    //await fb_writeRecords("lobbies/" + lobbyDetails.)
+    console.log(await fb_readRecords("lobbies/" + joinLobby.lobbyCode.value + "/users"));
+    console.log(await fb_readRecords("lobbies/" + joinLobby.lobbyCode.value));
+    //window.location.href='./gtnLobby.html';
     });
 }
 
 
 async function hostGame(){
+    fb_writeRecords("tezt", "test");
     var lobbyID = Math.floor(Math.random() * 10000);
     console.log(lobbyID);
-    //if (fb_readRecords("lobbies/" + lobbyID) != null){
-        fb_writeRecords("lobbies/" + lobbyID + "/users/" + userDetails.uid, true);
-        fb_writeRecords("lobbies/" + lobbyID + "/state/" , "lobby");
+    if (await fb_readRecords("lobbies/" + lobbyID) == null){
+         await fb_writeRecords("lobbies/" + lobbyID + "/users/" + userDetails.uid, true);
+         await fb_writeRecords("lobbies/" + lobbyID + "/state/" , "lobby");
 
-        sessionStorage.setItem("lobbyDetails", JSON.stringify(fb_readRecords("lobbies/" + lobbyID)));    
-        window.location.href='./gtnLobby.html'; 
-    //} else {
-    //    hostGame();
-    //}
+         sessionStorage.setItem("lobbyDetails", JSON.stringify(fb_readRecords("lobbies/" + lobbyID)));    
+         window.location.href='./gtnLobby.html'; 
+    } else {
+        hostGame();
+    }
 }
 
 function returnToMenu(){
@@ -56,21 +61,14 @@ function returnToMenu(){
     window.location.href='./gtn.html'
 }
 
-function blah(){
-    fb_writeRecords("a", "test");
-}
 
-
-
-if (window.href == "games/gtn/gtn.html"){
+if (!window.location.href.includes("/gtnLobby")){
     addJoinListener();
 }
 
 window.hostGame = hostGame;
 window.returnToMenu = returnToMenu;
 window.addJoinListener = addJoinListener;
-window.blah = blah;
-
 /*******************************************************/
 //  END OF Program
 /*******************************************************/

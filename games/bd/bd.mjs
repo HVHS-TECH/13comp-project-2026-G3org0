@@ -171,7 +171,7 @@ function draw() {
 		console.log(inactiveOrbs);
 	}
 	if (kb.pressed('h')){
-		window.location.href = '.../index.html';
+		window.location.href = '../../../pages/gameSelection/gameSelection.html';
 	}
 
 	

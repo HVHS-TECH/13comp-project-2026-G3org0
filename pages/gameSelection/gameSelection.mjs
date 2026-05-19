@@ -49,7 +49,7 @@ function sb_checkForAdminAddButton(){
         adminButton.addEventListener("click", function() {
             window.location.href = "../admin/admin.html";
         });
-    document.querySelector("side-bar").appendChild(adminButton);
+    //document.querySelector("side-bar").appendChild(adminButton);
     }
 }
 /**************************************************************/

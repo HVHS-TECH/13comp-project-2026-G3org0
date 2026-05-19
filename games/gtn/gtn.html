@@ -13,31 +13,30 @@ BODY
 **************************************************************-->
 <body>
   <script type="module" src="/Fb_io.mjs"></script>
-  <script type="module" src="/games/gtn/gtn.mjs"></script>
   <script type="module" src="../../pages/main/main.mjs"></script>
+  
+  <header>
+    <h1 id="title">Guess The Number</h1>
+  </header>
+  
+  <section>
     
-    <header>
-        <h1 id="title">Guess The Number</h1>
-    </header>
-
-    <section>
-      
       <form id="joinLobby">
         
         <!-- <label for="lobbyCode" ">Enter lobby code: </label> -->
         <input type="text" id="lobbyCode" name="lobbyCode">
         
-        <button value="Submit">Submit</button>
+        <button type="submit" value="submit" id="submit">Submit</button>
       </form>
       
       <button onclick=hostGame()>Host game</button> <br>
       <button onclick="window.location.href='../../pages/gameSelection/gameSelection.html'">Exit</button>  
-      <button onclick=blah()>Blah</button>
     </section>
         
+    <script type="module" src="/games/gtn/gtn.mjs"></script>
   </body>
-</html>
-<!--*************************************************************
+  </html>
+  <!--*************************************************************
   END OF gtn.HTML
 **************************************************************-->
  
