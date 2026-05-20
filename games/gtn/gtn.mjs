@@ -35,7 +35,7 @@ document.getElementById("joinLobby").addEventListener("submit", async (result) =
     sessionStorage.setItem("lobbyDetails", JSON.stringify(lobbyDetails));
     //await fb_writeRecords("lobbies/" + lobbyDetails.)
     console.log(await fb_readRecords("lobbies/" + joinLobby.lobbyCode.value + "/users"));
-    console.log(await fb_readRecords("lobbies/" + joinLobby.lobbyCode.value));
+    console.log(await fb_readRecords("lobbies/" + joinLobby.lobbyCode.value + "/state"));
     //window.location.href='./gtnLobby.html';
     });
 }
