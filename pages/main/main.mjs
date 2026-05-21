@@ -39,6 +39,8 @@ if (document.getElementById("sb_title") != null) {
     const TITLE = document.getElementById("sb_title")
     TITLE.textContent = userDetails.gameName;
 }
+console.log(userDetails);
+
 
 fb_initialise();
 fb_detectLoginChange();

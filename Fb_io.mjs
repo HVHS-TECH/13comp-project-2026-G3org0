@@ -259,7 +259,7 @@ function fb_attemptLogIn() {
   fb_authenticate().then((active) => {
     if (active == true){
       fb_readRecords("/userDetails/" + userDetails.uid).then((snapshot) => {
-        userDetails = snapshot.val();
+        userDetails = snapshot;
         sessionStorage.setItem("userDetails", JSON.stringify(userDetails));
         window.location.href = './pages/gameSelection/gameSelection.html';
       })

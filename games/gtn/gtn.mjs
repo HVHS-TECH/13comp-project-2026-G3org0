@@ -24,19 +24,18 @@ from "../../Fb_io.mjs";
 var lobbyDetails;
 
 if (sessionStorage.getItem("lobbyDetails") != null) {
-  //lobbyDetails = JSON.parse(sessionStorage.getItem("lobbyDetails"));
+  lobbyDetails = JSON.parse(sessionStorage.getItem("lobbyDetails"));
   console.log(lobbyDetails); 
 }
 
 function addJoinListener(){
-document.getElementById("joinLobby").addEventListener("submit", async (result) => {
-    result.preventDefault();
-    lobbyDetails = await fb_readRecords("lobbies/" + joinLobby.lobbyCode.value);
-    sessionStorage.setItem("lobbyDetails", JSON.stringify(lobbyDetails));
-    //await fb_writeRecords("lobbies/" + lobbyDetails.)
-    console.log(await fb_readRecords("lobbies/" + joinLobby.lobbyCode.value + "/users"));
-    console.log(await fb_readRecords("lobbies/" + joinLobby.lobbyCode.value + "/state"));
-    //window.location.href='./gtnLobby.html';
+    document.getElementById("joinLobby").addEventListener("submit", async (result) => {
+        result.preventDefault();
+        await fb_writeRecords("lobbies/" + joinLobby.lobbyCode.value + "/users/" + userDetails.uid, "ssss userDetails.displayName");
+        lobbyDetails = await fb_readRecords("lobbies/" + joinLobby.lobbyCode.value);
+        sessionStorage.setItem("lobbyDetails", JSON.stringify(lobbyDetails));
+        window.location.href='./gtnLobby.html';
+        console.log(userDetails);
     });
 }
 
@@ -46,8 +45,9 @@ async function hostGame(){
     var lobbyID = Math.floor(Math.random() * 10000);
     console.log(lobbyID);
     if (await fb_readRecords("lobbies/" + lobbyID) == null){
-         await fb_writeRecords("lobbies/" + lobbyID + "/users/" + userDetails.uid, true);
-         await fb_writeRecords("lobbies/" + lobbyID + "/state/" , "lobby");
+        await fb_writeRecords("lobbies/" + lobbyID + "/users/" + userDetails.uid, userDetails.displayName);
+        await fb_writeRecords("lobbies/" + lobbyID + "/hostId/" + userDetails.uid, userDetails.displayName);
+        await fb_writeRecords("lobbies/" + lobbyID + "/state/" , "lobby");
 
          sessionStorage.setItem("lobbyDetails", JSON.stringify(fb_readRecords("lobbies/" + lobbyID)));    
          window.location.href='./gtnLobby.html'; 
@@ -64,6 +64,8 @@ function returnToMenu(){
 
 if (!window.location.href.includes("/gtnLobby")){
     addJoinListener();
+} else {
+    document.getElementById("hostLine").innerHTML = lobbyDetails.users.DLwyQGWmkUgNcczxwXGWGeIyWY62;
 }
 
 window.hostGame = hostGame;
