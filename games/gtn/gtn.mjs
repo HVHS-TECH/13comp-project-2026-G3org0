@@ -17,60 +17,67 @@
 /////////////////////////////////
 /*******************************************************/
 
-import { fb_readRecords, fb_writeRecords, userDetails } 
-from "../../Fb_io.mjs";
+import { fb_readRecords, fb_writeRecords, userDetails }
+    from "../../Fb_io.mjs";
+
+window.returnToMenu = returnToMenu;
+window.hostGame = hostGame;
+window.addJoinListener = addJoinListener;
 
 
 var lobbyDetails;
 
 if (sessionStorage.getItem("lobbyDetails") != null) {
-  lobbyDetails = JSON.parse(sessionStorage.getItem("lobbyDetails"));
-  console.log(lobbyDetails); 
+    lobbyDetails = JSON.parse(sessionStorage.getItem("lobbyDetails"));
+    console.log(lobbyDetails);
 }
 
-function addJoinListener(){
+function addJoinListener() {
     document.getElementById("joinLobby").addEventListener("submit", async (result) => {
         result.preventDefault();
         await fb_writeRecords("lobbies/" + joinLobby.lobbyCode.value + "/users/" + userDetails.uid, "ssss userDetails.displayName");
         lobbyDetails = await fb_readRecords("lobbies/" + joinLobby.lobbyCode.value);
         sessionStorage.setItem("lobbyDetails", JSON.stringify(lobbyDetails));
-        window.location.href='./gtnLobby.html';
+        window.location.href = './gtnLobby.html';
         console.log(userDetails);
     });
 }
 
 
-async function hostGame(){
+async function hostGame() {
     fb_writeRecords("tezt", "test");
     var lobbyID = Math.floor(Math.random() * 10000);
     console.log(lobbyID);
-    if (await fb_readRecords("lobbies/" + lobbyID) == null){
+    if (await fb_readRecords("lobbies/" + lobbyID) == null) {
         await fb_writeRecords("lobbies/" + lobbyID + "/users/" + userDetails.uid, userDetails.displayName);
         await fb_writeRecords("lobbies/" + lobbyID + "/hostId/" + userDetails.uid, userDetails.displayName);
-        await fb_writeRecords("lobbies/" + lobbyID + "/state/" , "lobby");
+        await fb_writeRecords("lobbies/" + lobbyID + "/state/", "lobby");
 
-         sessionStorage.setItem("lobbyDetails", JSON.stringify(fb_readRecords("lobbies/" + lobbyID)));    
-         window.location.href='./gtnLobby.html'; 
+        sessionStorage.setItem("lobbyDetails", JSON.stringify(await fb_readRecords("lobbies/" + lobbyID)));
+        console.log(JSON.parse(sessionStorage.getItem("lobbyDetails")));
+        window.location.href='./gtnLobby.html'; 
     } else {
         hostGame();
     }
 }
 
-function returnToMenu(){
-    sessionStorage.clear("lobbyDetails");
-    window.location.href='./gtn.html'
+function returnToMenu() {
+    console.log(lobbyDetails)
+    const HOST_ID = Object.keys(lobbyDetails.hostId)[0];
+    if(HOST_ID == userDetails.uid) {
+        if(lobbyDetails.users)fb_writeRecords
+    console.log(HOST_ID);
+    //sessionStorage.lobbyDetails.clear();
+    //window.location.href='./gtn.html'
 }
 
 
-if (!window.location.href.includes("/gtnLobby")){
+if (!window.location.href.includes("/gtnLobby")) {
     addJoinListener();
 } else {
     document.getElementById("hostLine").innerHTML = lobbyDetails.users.DLwyQGWmkUgNcczxwXGWGeIyWY62;
 }
 
-window.hostGame = hostGame;
-window.returnToMenu = returnToMenu;
-window.addJoinListener = addJoinListener;
 /*******************************************************/
 //  END OF Program
 /*******************************************************/
