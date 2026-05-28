@@ -156,18 +156,18 @@ function fb_Logout(repeats) {
   console.log(repeats);
 
   var indexPageAddrease = "index.html";
-  for (var i = 0; i < repeats; i++){
-    indexPageAddrease = "../" + indexPageAddrease;
+  for (var i = -1; i < repeats; i++){
+    indexPageAddrease = "../";
   }
   
   const AUTH = getAuth();
     signOut(AUTH).then(() => {
-        console.log("Loged out")
+        console.log("Logged out")
         window.location.href = indexPageAddrease;
         sessionStorage.clear();
     })
     .catch((error) => {
-      console.log("Loged out error")
+      console.log("Logged out error")
     });
 }
 

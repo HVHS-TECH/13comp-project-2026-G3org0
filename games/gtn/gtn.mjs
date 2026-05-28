@@ -35,7 +35,7 @@ if (sessionStorage.getItem("lobbyDetails") != null) {
 function addJoinListener() {
     document.getElementById("joinLobby").addEventListener("submit", async (result) => {
         result.preventDefault();
-        await fb_writeRecords("lobbies/" + joinLobby.lobbyCode.value + "/users/" + userDetails.uid, "ssss userDetails.displayName");
+        await fb_writeRecords("lobbies/" + joinLobby.lobbyCode.value + "/hostId/" + userDetails.uid, userDetails.displayName);
         lobbyDetails = await fb_readRecords("lobbies/" + joinLobby.lobbyCode.value);
         sessionStorage.setItem("lobbyDetails", JSON.stringify(lobbyDetails));
         window.location.href = './gtnLobby.html';
@@ -74,7 +74,7 @@ function returnToMenu() {
 if (!window.location.href.includes("/gtnLobby")) {
     addJoinListener();
 } else {
-    document.getElementById("hostLine").innerHTML = lobbyDetails.users.DLwyQGWmkUgNcczxwXGWGeIyWY62;
+    document.getElementById("hostLine").innerHTML = lobbyDetails.users.userDetails.displayName;
 }
 
 /*******************************************************/
