@@ -27,14 +27,14 @@ from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 import { initializeApp }
 from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
   
-import { getDatabase, ref, set, get, update, query, orderByChild, limitToFirst, orderByValue }
+import { getDatabase, ref, set, remove, get, update, query, orderByChild, limitToFirst, orderByValue }
 from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
 /**************************************************************/
 // EXPORTs
 /**************************************************************/
 export { fb_initialise, fb_authenticate, fb_detectLoginChange, fb_Logout, fb_attemptLogIn, fb_adminCommands,
-  fb_writeRecords, fb_readRecords, fb_sortedRead, fb_registerDetails };
+  fb_writeRecords, fb_readRecords, fb_sortedRead, fb_registerDetails, fb_remove };
 /**************************************************************/
 // Main code
 /**************************************************************/
@@ -215,6 +215,23 @@ function fb_readRecords(pathKey) {
     })
     .catch((error) => {
       console.error(error);
+    });
+}
+
+///////////////////////////////////
+//Name:fb_remove(pathKey)
+//Job: removes data
+//Input: (pathKey, (location in database))
+////////////////////////////////
+
+function fb_remove(pathKey) {
+  console.log('%c fb_remove(): ', 
+    'color: ' + COL_C + '; background-color: ' + COL_B + ';');
+  const dbReference = ref(getDatabase(), pathKey);
+  console.log("Removing: " + pathKey)  
+    return remove(dbReference).then(() => {
+    }).catch((error) => {
+        console.log("error" + error)
     });
 }
 

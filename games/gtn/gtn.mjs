@@ -17,7 +17,7 @@
 /////////////////////////////////
 /*******************************************************/
 
-import { fb_readRecords, fb_writeRecords, userDetails }
+import { fb_readRecords, fb_writeRecords, fb_remove, userDetails }
     from "../../Fb_io.mjs";
 
 window.returnToMenu = returnToMenu;
@@ -51,8 +51,7 @@ async function hostGame() {
     if (await fb_readRecords("lobbies/" + lobbyID) == null) {
         await fb_writeRecords("lobbies/" + lobbyID + "/users/" + userDetails.uid, userDetails.displayName);
         await fb_writeRecords("lobbies/" + lobbyID + "/hostId/" + userDetails.uid, userDetails.displayName);
-        await fb_writeRecords("lobbies/" + lobbyID + "/state/", "lobby");
-
+        await fb_writeRecords("lobbies/" + lobbyID + "/" + lobbyID + "/", "lobby");
         sessionStorage.setItem("lobbyDetails", JSON.stringify(await fb_readRecords("lobbies/" + lobbyID)));
         console.log(JSON.parse(sessionStorage.getItem("lobbyDetails")));
         window.location.href='./gtnLobby.html'; 
@@ -65,10 +64,10 @@ function returnToMenu() {
     console.log(lobbyDetails)
     const HOST_ID = Object.keys(lobbyDetails.hostId)[0];
     if(HOST_ID == userDetails.uid) {
-        if(lobbyDetails.users)fb_writeRecords
-    console.log(HOST_ID);
-    //sessionStorage.lobbyDetails.clear();
-    //window.location.href='./gtn.html'
+        fb_remove("lobbies/"+ lobbyDetails.lobbyID);
+    }
+    sessionStorage.removeItem("lobbyDetails");
+    window.location.href='./gtn.html'
 }
 
 
