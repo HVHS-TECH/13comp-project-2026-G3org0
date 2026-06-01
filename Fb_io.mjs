@@ -224,7 +224,7 @@ function fb_readRecords(pathKey) {
 //Input: (pathKey, (location in database))
 ////////////////////////////////
 
-function fb_remove(pathKey) {
+async function fb_remove(pathKey) {
   console.log('%c fb_remove(): ', 
     'color: ' + COL_C + '; background-color: ' + COL_B + ';');
   const dbReference = ref(getDatabase(), pathKey);
