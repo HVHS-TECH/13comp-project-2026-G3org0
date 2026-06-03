@@ -27,14 +27,14 @@ from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 import { initializeApp }
 from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
   
-import { getDatabase, ref, set, remove, get, update, query, orderByChild, limitToFirst, orderByValue }
+import { getDatabase, ref, set, remove, get, update, query, orderByChild, limitToFirst, orderByValue, onValue }
 from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
 /**************************************************************/
 // EXPORTs
 /**************************************************************/
 export { fb_initialise, fb_authenticate, fb_detectLoginChange, fb_Logout, fb_attemptLogIn, fb_adminCommands,
-  fb_writeRecords, fb_readRecords, fb_sortedRead, fb_registerDetails, fb_remove };
+  fb_writeRecords, fb_readRecords, fb_sortedRead, fb_registerDetails, fb_remove,fb_onValue };
 /**************************************************************/
 // Main code
 /**************************************************************/
@@ -325,6 +325,16 @@ function fb_adminCommands(command, pathKey, data){
       alert("Wrote " + data + " to " + pathKey)
     }
 }
+
+
+function fb_onValue(path, callback){
+  const dbReference = ref(getDatabase(), path)
+  onValue(dbReference, (snapshot) => {
+    callback(snapshot.val())
+  })
+}
+
+
 /**************************************************************/
 // END OF CODE
 /**************************************************************/
