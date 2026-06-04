@@ -39,9 +39,9 @@ async function hostGame() {
     if (await fb_readRecords("lobbies/" + LOBBY_ID) == null) {
         await fb_writeRecords("lobbies/" + LOBBY_ID + "/users/" + userDetails.uid, userDetails.gameName);
         await fb_writeRecords("lobbies/" + LOBBY_ID + "/" + LOBBY_ID + "/", "lobby");
-        
-        sessionStorage.setItem("lobbyDetails", JSON.stringify(await fb_readRecords("lobbies/" + LOBBY_ID)));
+        lobbyDetails = await fb_readRecords("lobbies/" + LOBBY_ID)
         lobbyDetails.lobbyID = LOBBY_ID;
+        sessionStorage.setItem("lobbyDetails", JSON.stringify(lobbyDetails));
         console.log(JSON.parse(sessionStorage.getItem("lobbyDetails")));
         window.location.href='./gtnLobby.html'; 
     } else {
@@ -76,7 +76,6 @@ function findPartner(){
     } else {
         lobbyDetails.partner = Object.keys(lobbyDetails.users)[1];
     }
-    console.log(lobbyDetails);
 }
 
 if (!window.location.href.includes("/gtnLobby")) {
@@ -84,12 +83,14 @@ if (!window.location.href.includes("/gtnLobby")) {
 } else {
     
     findPartner();
-    document.getElementById("partnerLine").innerHTML = lobbyDetails.partner;
+    document.getElementById("partnerLine").innerHTML = lobbyDetails.users[lobbyDetails.partner] + " :: " + lobbyDetails.lobbyID;
+    console.log(lobbyDetails.partner);
+
     console.log(lobbyDetails.lobbyID);
-    fb_onValue("lobbies/" + lobbyDetails.LOBBY_ID, ()=>{
-        console.log("on value activated")
+    fb_onValue("lobbies/" + lobbyDetails.lobbyID, async ()=>{
+        lobbyDetails.users = await fb_readRecords("lobbies/" + lobbyDetails.lobbyID + "/users");
         findPartner();
-        document.getElementById("partnerLine").innerHTML = lobbyDetails.partner;
+        document.getElementById("partnerLine").innerHTML = lobbyDetails.users[lobbyDetails.partner] + " :: " + lobbyDetails.lobbyID;
     
     })
 }
