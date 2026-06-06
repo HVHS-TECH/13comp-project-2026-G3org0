@@ -16,12 +16,18 @@
         <h1 id="title">Guesss The Number</h1>
     </header>
 
-    <section>
-        <h3 id="partnerLine"></h3>
-        <button onclick=returnToMenu()>Return To Menu </button> <br>
-      </section>
-        
+      <h3 id="partnerLine"></h3>
+      
+        <form id="guessNum" style="margin-left: 0%;">
+          <label for="number" style="margin-left:0px;">Type your number:</label><br>
+          <input type="number" id="number" name="number"><br>
+          <button type="submit" id="submit" value="submit" style="margin-left:0px;margin-right:0px;">Guess</button>
+        </form> <br>
 
+              <h3 id="feedbackLine"></h3>
+              <h3 id="turnLine"></h3>
+        <button onclick=returnToMenu()>Return To Menu </button> <br>
+        
   <script type="module" src="./gtn.mjs"></script>
   <script type="module" src="../../pages/main/main.mjs"></script>
 </body>

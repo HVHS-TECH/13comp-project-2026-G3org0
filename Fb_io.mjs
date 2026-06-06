@@ -150,20 +150,15 @@ function fb_detectLoginChange() {
 //Input: N/A
 //Output:N/A
 ////////////////////////////////
-function fb_Logout(repeats) {
+function fb_Logout() {
   //console.log('%c fb_Logout():', 
   //'color: ' + COL_C + '; background-color: ' + COL_B + ';');
-  console.log(repeats);
 
-  var indexPageAddrease = "index.html";
-  for (var i = -1; i < repeats; i++){
-    indexPageAddrease = "../";
-  }
   
   const AUTH = getAuth();
     signOut(AUTH).then(() => {
         console.log("Logged out")
-        window.location.href = indexPageAddrease;
+        window.location.href = '../../index.html';
         sessionStorage.clear();
     })
     .catch((error) => {

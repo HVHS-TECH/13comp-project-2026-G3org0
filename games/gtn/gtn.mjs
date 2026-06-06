@@ -27,10 +27,11 @@ window.addJoinListener = addJoinListener;
 fb_initialise()
 
 var lobbyDetails = {};
+var feedBackLine;
+var turnLine;
 
 if (sessionStorage.getItem("lobbyDetails") != null) {
     lobbyDetails = JSON.parse(sessionStorage.getItem("lobbyDetails"));
-    console.log(lobbyDetails);
 }
 
 async function hostGame() {
@@ -42,8 +43,7 @@ async function hostGame() {
         lobbyDetails = await fb_readRecords("lobbies/" + LOBBY_ID)
         lobbyDetails.lobbyID = LOBBY_ID;
         sessionStorage.setItem("lobbyDetails", JSON.stringify(lobbyDetails));
-        console.log(JSON.parse(sessionStorage.getItem("lobbyDetails")));
-        window.location.href='./gtnLobby.html'; 
+        window.location.href='./gtnGame.html'; 
     } else {
         hostGame();
     }
@@ -53,19 +53,28 @@ function addJoinListener() {
     document.getElementById("joinLobby").addEventListener("submit", async (result) => {
         result.preventDefault();
 
+        if (await fb_readRecords("lobbies/" + result.target.lobbyCode.value) == null) {
+            document.getElementById("joinFeedBack").innerHTML = "Lobby not found, try again";
+            return;
+        }
+
+        const randomUID = Object.keys(await fb_readRecords("lobbies/" + joinLobby.lobbyCode.value + "/users/"))[Math.floor(Math.random() * 2)];
         await fb_writeRecords("lobbies/" + joinLobby.lobbyCode.value + "/users/" + userDetails.uid, userDetails.gameName);
+        await fb_writeRecords("lobbies/" + joinLobby.lobbyCode.value + "/feedBack", "Nothing to report yet");
+        await fb_writeRecords("lobbies/" + joinLobby.lobbyCode.value + "/turn/", randomUID);       
+        await fb_writeRecords("lobbies/" + joinLobby.lobbyCode.value + "/" + joinLobby.lobbyCode.value +"/", "game");
+        await fb_writeRecords("lobbies/" + joinLobby.lobbyCode.value + "/num/", Math.floor(Math.random() * 101));
         lobbyDetails = await fb_readRecords("lobbies/" + joinLobby.lobbyCode.value);
+
         lobbyDetails.lobbyID = Object.keys(lobbyDetails)[0];
         sessionStorage.setItem("lobbyDetails", JSON.stringify(lobbyDetails));
 
-        window.location.href = './gtnLobby.html';
-        console.log(lobbyDetails);
+        window.location.href = './gtnGame.html';
     });
 }
 
 async function returnToMenu() {
     await fb_remove("lobbies/"+ lobbyDetails.LOBBY_ID);
-    console.log(lobbyDetails);
     sessionStorage.removeItem("lobbyDetails");
     window.location.href='./gtn.html'
 }
@@ -78,23 +87,83 @@ function findPartner(){
     }
 }
 
-if (!window.location.href.includes("/gtnLobby")) {
-    addJoinListener();
-} else {
-    
+
+async function usersChange(){
+    const snapshot = await fb_readRecords("lobbies/" + lobbyDetails.lobbyID);
+    lobbyDetails = { ...snapshot, lobbyID: Object.keys(snapshot)[0] };
     findPartner();
     document.getElementById("partnerLine").innerHTML = lobbyDetails.users[lobbyDetails.partner] + " :: " + lobbyDetails.lobbyID;
-    console.log(lobbyDetails.partner);
 
-    console.log(lobbyDetails.lobbyID);
-    fb_onValue("lobbies/" + lobbyDetails.lobbyID, async ()=>{
-        lobbyDetails.users = await fb_readRecords("lobbies/" + lobbyDetails.lobbyID + "/users");
-        findPartner();
-        document.getElementById("partnerLine").innerHTML = lobbyDetails.users[lobbyDetails.partner] + " :: " + lobbyDetails.lobbyID;
-    
-    })
+    if (Object.keys(lobbyDetails.users).length > 1){
+        feedBackLine.innerHTML = "Friend has joined";
+    }
+    turnChange();
+    console.log(lobbyDetails);
 }
 
+async function guessNumber(result){
+    result.preventDefault();
+    const NUM = result.target.number.value;
+
+    if (lobbyDetails[lobbyDetails.lobbyID] == "finished"){
+        feedBackLine.innerHTML = "Game has finished, return to menu and start a new game";
+        return;
+    }
+
+    if (lobbyDetails[lobbyDetails.lobbyID] == "lobby"){
+        feedBackLine.innerHTML = "You can't play by yourself.  :(  <br>  Wait for a partner to join";
+        return;
+    }
+
+    if (lobbyDetails.turn != userDetails.uid){
+        feedBackLine.innerHTML = "It's not your turn yet!";
+        return;
+    }
+
+    if (NUM == lobbyDetails.num){
+        feedBackLine.innerHTML = "You won, Congrats!!  :)" + "    (" + lobbyDetails.num + ")";
+        fb_writeRecords("lobbies/" + lobbyDetails.lobbyID + "/feedBack", "They won :(    (" + lobbyDetails.num + ")");
+        fb_writeRecords("lobbies/" + lobbyDetails.lobbyID + "/" + lobbyDetails.lobbyID, "finished");
+    } else if (NUM > lobbyDetails.num){
+        feedBackLine.innerHTML = "Your guess was too high!";
+        fb_writeRecords("lobbies/" + lobbyDetails.lobbyID + "/feedBack", "They guessed too high");
+    } else {
+        feedBackLine.innerHTML = "Your guess was too low!";
+        fb_writeRecords("lobbies/" + lobbyDetails.lobbyID + "/feedBack", "They guessed too low");
+    }
+
+    fb_writeRecords("lobbies/" + lobbyDetails.lobbyID + "/turn", lobbyDetails.partner);
+}
+
+async function turnChange(){
+    lobbyDetails.turn = await fb_readRecords("lobbies/" + lobbyDetails.lobbyID + "/turn");
+    lobbyDetails.feedBack = await fb_readRecords("lobbies/" + lobbyDetails.lobbyID + "/feedBack");
+    lobbyDetails[lobbyDetails.lobbyID] = await fb_readRecords("lobbies/" + lobbyDetails.lobbyID + "/" + lobbyDetails.lobbyID);
+    if (lobbyDetails.turn == userDetails.uid){
+        turnLine.innerHTML = "Your turn :: " + lobbyDetails.feedBack;
+    } else {
+        turnLine.innerHTML = "Not your turn";
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    if (!window.location.href.includes("/gtnGame")) {
+        addJoinListener();
+    } else {
+        findPartner();
+        document.getElementById("partnerLine").innerHTML = lobbyDetails.users[lobbyDetails.partner] + " :: " + lobbyDetails.lobbyID;
+        document.getElementById("feedbackLine").innerHTML = "Waiting for you friend to join...";
+        feedBackLine = document.getElementById("feedbackLine");
+        turnLine = document.getElementById("turnLine");
+
+        console.log(lobbyDetails.partner);
+        console.log(lobbyDetails.lobbyID);
+        
+        fb_onValue("lobbies/" + lobbyDetails.lobbyID + "/num", usersChange);
+        fb_onValue("lobbies/" + lobbyDetails.lobbyID + "/" + "turn", turnChange);
+        document.getElementById("guessNum").addEventListener('submit', guessNumber);
+    }
+});
 /*******************************************************/
 //  END OF Program
 /*******************************************************/
