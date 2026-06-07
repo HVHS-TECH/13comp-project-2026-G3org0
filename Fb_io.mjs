@@ -8,7 +8,6 @@
 /*******************************************************/
 //////////////////////Function Comments method
 //Name: Name of the function
-//When: (if called by function, name function)
 //Job: What it does
 //Input: input parameters
 //Output: what it returns
@@ -60,7 +59,6 @@ if (sessionStorage.getItem("userDetails") != null) {
 /**************************************************************/
   ///////////////////////////////////
   //Name:fb_initialise()
-  //When: main.mjs
   //Job: estableshes connection with firebase
   //Input: N/A
   //Output:N/A
@@ -85,7 +83,6 @@ if (sessionStorage.getItem("userDetails") != null) {
 
 ///////////////////////////////////
 //Name:fb_authenticate()
-//When: fb_attemptLogIn()
 //Job: opens pop for account authetafication, reads if user is registered and returns true or false
 //Input: N/A
 //Output: if user is registerd in database (true/false)
@@ -122,7 +119,6 @@ function fb_authenticate(){
 
 ///////////////////////////////////
 //Name:fb_detectLoginChange()
-//When: main.mjs
 //Job: checks if a user is logged in
 //Input: N/A
 //Output:N/A
@@ -145,7 +141,6 @@ function fb_detectLoginChange() {
 
 ///////////////////////////////////
 //Name:fb_Logout()
-//When: main.mjs
 //Job: signs out account
 //Input: N/A
 //Output:N/A
@@ -168,7 +163,6 @@ function fb_Logout() {
 
 ///////////////////////////////////
 //Name:fb_writeRecords(pathkey, data)
-//When: fb_adminCommands(); || fb_registerDetails(); || bd.mjs
 //Job: writes data to location in database
 //Input: (pathKey, (location in database)) (data, (data to write))
 //Output: Returns when done
@@ -186,7 +180,6 @@ function fb_writeRecords(pathKey, data) {
 
 ///////////////////////////////////
 //Name:fb_readRecords(pathKey)
-//When: fb_authenticate(); || fb_registerDetails()|; || fb_attemptLogIn(); || bd.mjs || gameSelecetion.mjs
 //Job: reads data from location in database
 //Input: (pathKey, (location in database))
 //Output: returns data from location
@@ -233,7 +226,6 @@ async function fb_remove(pathKey) {
 
 ///////////////////////////////////
 //Name:fb_sortedRead()
-//When: gameSelection.mjs
 //Job: To read from a location and return a sorted array
 //Input: (pathKey, (location in database))
 //Output: Sorted Array
@@ -259,7 +251,6 @@ function fb_sortedRead(pathKey) {
 
 ///////////////////////////////////
 //Name:fb_attemptLogIn()
-//When: main.mjs
 //Job: To attempt to log in, if not registered go to registration page
 //Input: N/A
 //Output:N/A
@@ -283,7 +274,6 @@ function fb_attemptLogIn() {
 
 ///////////////////////////////////
 //Name:fb_registerDetails()
-//When: registration.mjs
 //Job: to write the data from the registartion page to userDetails in the database
 //Input: (gameName, (userDetails.gameName)) (age, (userDetails.age)) (gender, (userDetails.gender))
 //Output:N/A
@@ -302,7 +292,6 @@ function fb_registerDetails(gameName, age, gender){
 
 ///////////////////////////////////
 //Name:fb_adminCommands()
-//When: admin.mjs
 //Job: To execute a command depending on params
 //Input: (command, (The type of command)) (pathKey, (location in database)) (data, (what data to write))
 //Output:N/A
@@ -321,14 +310,18 @@ function fb_adminCommands(command, pathKey, data){
     }
 }
 
-
+///////////////////////////////////
+//Name:fb_onValue(path, callback)
+//Job: To listen for value changes at a specific path
+//Input: (path, (The location in the database to listen to)) (callback, (The function to call when the value changes))
+//Output:N/A
+////////////////////////////////
 function fb_onValue(path, callback){
   const dbReference = ref(getDatabase(), path)
   onValue(dbReference, (snapshot) => {
     callback(snapshot.val())
   })
 }
-
 
 /**************************************************************/
 // END OF CODE

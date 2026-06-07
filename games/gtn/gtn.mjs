@@ -34,8 +34,10 @@ if (sessionStorage.getItem("lobbyDetails") != null) {
     lobbyDetails = JSON.parse(sessionStorage.getItem("lobbyDetails"));
 }
 
+///////////////////////////////////
+//initilizes the lobby. sends data to db. sets lobbys data to session storage. sends user to game page
+////////////////////////////////
 async function hostGame() {
-    fb_writeRecords("tezt", "test");
     const LOBBY_ID = Math.floor(Math.random() * 10000);
     if (await fb_readRecords("lobbies/" + LOBBY_ID) == null) {
         await fb_writeRecords("lobbies/" + LOBBY_ID + "/users/" + userDetails.uid, userDetails.gameName);
@@ -49,6 +51,9 @@ async function hostGame() {
     }
 }
 
+///////////////////////////////////
+//writes second half of lobbys data to db. sets lobbys data to session storage. sends user to game page
+////////////////////////////////
 function addJoinListener() {
     document.getElementById("joinLobby").addEventListener("submit", async (result) => {
         result.preventDefault();
@@ -73,12 +78,18 @@ function addJoinListener() {
     });
 }
 
+///////////////////////////////////
+//removes lobby from database. removes lobbyDetails from session storage. sends user to menu
+////////////////////////////////
 async function returnToMenu() {
     await fb_remove("lobbies/"+ lobbyDetails.LOBBY_ID);
     sessionStorage.removeItem("lobbyDetails");
     window.location.href='./gtn.html'
 }
 
+///////////////////////////////////
+//finds the users partner in the lobby and sets it to lobbyDetails.partner
+////////////////////////////////
 function findPartner(){
     if (Object.keys(lobbyDetails.users)[0] != userDetails.uid){
         lobbyDetails.partner = Object.keys(lobbyDetails.users)[0];
@@ -87,7 +98,9 @@ function findPartner(){
     }
 }
 
-
+///////////////////////////////////
+//listens for changes in the lobby and updates the page accordingly
+////////////////////////////////
 async function usersChange(){
     const snapshot = await fb_readRecords("lobbies/" + lobbyDetails.lobbyID);
     lobbyDetails = { ...snapshot, lobbyID: Object.keys(snapshot)[0] };
@@ -101,6 +114,9 @@ async function usersChange(){
     console.log(lobbyDetails);
 }
 
+///////////////////////////////////
+//takes the users guess and checks if its correct. updates the database with the result and changes the turn
+////////////////////////////////
 async function guessNumber(result){
     result.preventDefault();
     const NUM = result.target.number.value;
@@ -108,14 +124,16 @@ async function guessNumber(result){
     if (lobbyDetails[lobbyDetails.lobbyID] == "finished"){
         feedBackLine.innerHTML = "Game has finished, return to menu and start a new game";
         return;
-    }
-
-    if (lobbyDetails[lobbyDetails.lobbyID] == "lobby"){
+    } else if (lobbyDetails[lobbyDetails.lobbyID] == "lobby"){
         feedBackLine.innerHTML = "You can't play by yourself.  :(  <br>  Wait for a partner to join";
         return;
     }
 
-    if (lobbyDetails.turn != userDetails.uid){
+    console.log(lobbyDetails.turn);
+    if (lobbyDetails.turn == null){
+        console.log("null")
+        feedBackLine.innerHTML = "";
+    }else if (lobbyDetails.turn != userDetails.uid){
         feedBackLine.innerHTML = "It's not your turn yet!";
         return;
     }
@@ -135,17 +153,26 @@ async function guessNumber(result){
     fb_writeRecords("lobbies/" + lobbyDetails.lobbyID + "/turn", lobbyDetails.partner);
 }
 
+///////////////////////////////////
+//listens for changes in the turn and feedback and updates the page 
+////////////////////////////////
 async function turnChange(){
     lobbyDetails.turn = await fb_readRecords("lobbies/" + lobbyDetails.lobbyID + "/turn");
     lobbyDetails.feedBack = await fb_readRecords("lobbies/" + lobbyDetails.lobbyID + "/feedBack");
     lobbyDetails[lobbyDetails.lobbyID] = await fb_readRecords("lobbies/" + lobbyDetails.lobbyID + "/" + lobbyDetails.lobbyID);
-    if (lobbyDetails.turn == userDetails.uid){
-        turnLine.innerHTML = "Your turn :: " + lobbyDetails.feedBack;
-    } else {
-        turnLine.innerHTML = "Not your turn";
-    }
+        if (lobbyDetails.turn == null){
+            turnLine.innerHTML = "";
+        } else if (lobbyDetails.turn == userDetails.uid){
+            turnLine.innerHTML = "Your turn :: " + lobbyDetails.feedBack;
+        } else {
+            turnLine.innerHTML = "Not your turn";
+        }
+    
 }
 
+///////////////////////////////////
+//listens for the page to load and then either adds the join listener or sets up the game page depending on if the user is hosting or joining
+////////////////////////////////
 document.addEventListener("DOMContentLoaded", () => {
     if (!window.location.href.includes("/gtnGame")) {
         addJoinListener();
