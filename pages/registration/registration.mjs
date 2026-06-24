@@ -28,27 +28,27 @@ import {fb_registerDetails} from '../../Fb_io.mjs';
 document.getElementById("regForm").addEventListener("submit", (result) => {
     result.preventDefault();
     onsubmit="return false;" 
-    const gameName = result.target.gameName.value;
-    const age = result.target.age.value;
-    const gender = result.target.gender.value;
+    const GAMENAME = result.target.gameName.value;
+    const AGE = result.target.age.value;
+    const GENDER = result.target.gender.value;
         
     ///////////////verfying input//////////////
     var isFormValid = true;
-    if (gameName != ""){} else {
+    if (GAMENAME != ""){} else {
         isFormValid = false;
         alert("Invalid GameName");
     }
-    if (age > 12 && age < 100){} else {
+    if (AGE > 12 && AGE < 100){} else {
         isFormValid = false;
         alert("Invalid age");
     }
-    if (gender != ""){} else {
+    if (GENDER != ""){} else {
         isFormValid = false;
         alert("Invalid gender");
     }
     if(isFormValid){
         alert("registed")
-        fb_registerDetails(gameName, age, gender);
+        fb_registerDetails(GAMENAME, AGE, GENDER);
     } 
 });
 /**************************************************************/

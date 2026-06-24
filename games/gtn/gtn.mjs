@@ -63,10 +63,10 @@ function addJoinListener() {
             return;
         }
 
-        const randomUID = Object.keys(await fb_readRecords("lobbies/" + joinLobby.lobbyCode.value + "/users/"))[Math.floor(Math.random() * 2)];
+        const RANDOMUID = Object.keys(await fb_readRecords("lobbies/" + joinLobby.lobbyCode.value + "/users/"))[Math.floor(Math.random() * 2)];
         await fb_writeRecords("lobbies/" + joinLobby.lobbyCode.value + "/users/" + userDetails.uid, userDetails.gameName);
         await fb_writeRecords("lobbies/" + joinLobby.lobbyCode.value + "/feedBack", "Nothing to report yet");
-        await fb_writeRecords("lobbies/" + joinLobby.lobbyCode.value + "/turn/", randomUID);       
+        await fb_writeRecords("lobbies/" + joinLobby.lobbyCode.value + "/turn/", RANDOMUID);       
         await fb_writeRecords("lobbies/" + joinLobby.lobbyCode.value + "/" + joinLobby.lobbyCode.value +"/", "game");
         await fb_writeRecords("lobbies/" + joinLobby.lobbyCode.value + "/num/", Math.floor(Math.random() * 101));
         lobbyDetails = await fb_readRecords("lobbies/" + joinLobby.lobbyCode.value);
@@ -102,8 +102,8 @@ function findPartner(){
 //listens for changes in the lobby and updates the page accordingly
 ////////////////////////////////
 async function usersChange(){
-    const snapshot = await fb_readRecords("lobbies/" + lobbyDetails.lobbyID);
-    lobbyDetails = { ...snapshot, lobbyID: Object.keys(snapshot)[0] };
+    const SNAPSHOT = await fb_readRecords("lobbies/" + lobbyDetails.lobbyID);
+    lobbyDetails = { ...SNAPSHOT, lobbyID: Object.keys(SNAPSHOT)[0] };
     findPartner();
     document.getElementById("partnerLine").innerHTML = lobbyDetails.users[lobbyDetails.partner] + " :: " + lobbyDetails.lobbyID;
 
@@ -111,7 +111,6 @@ async function usersChange(){
         feedBackLine.innerHTML = "Friend has joined";
     }
     turnChange();
-    console.log(lobbyDetails);
 }
 
 ///////////////////////////////////
@@ -129,9 +128,7 @@ async function guessNumber(result){
         return;
     }
 
-    console.log(lobbyDetails.turn);
     if (lobbyDetails.turn == null){
-        console.log("null")
         feedBackLine.innerHTML = "";
     }else if (lobbyDetails.turn != userDetails.uid){
         feedBackLine.innerHTML = "It's not your turn yet!";
@@ -183,9 +180,6 @@ document.addEventListener("DOMContentLoaded", () => {
         feedBackLine = document.getElementById("feedbackLine");
         turnLine = document.getElementById("turnLine");
 
-        console.log(lobbyDetails.partner);
-        console.log(lobbyDetails.lobbyID);
-        
         fb_onValue("lobbies/" + lobbyDetails.lobbyID + "/num", usersChange);
         fb_onValue("lobbies/" + lobbyDetails.lobbyID + "/" + "turn", turnChange);
         document.getElementById("guessNum").addEventListener('submit', guessNumber);

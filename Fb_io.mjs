@@ -189,10 +189,10 @@ function fb_readRecords(pathKey) {
   console.log('%c fb_readRecords(): ', 
     'color: ' + COL_C + '; background-color: ' + COL_B + ';');
 
-  const dbReference = ref(getDatabase(), pathKey);
+  const DBREFRENCE = ref(getDatabase(), pathKey);
   console.log("getting info from", pathKey);
 
-  return get(dbReference)
+  return get(DBREFRENCE)
     .then((snapshot) => {
       if (snapshot.val() != null) {
         return snapshot.val();
@@ -215,9 +215,9 @@ function fb_readRecords(pathKey) {
 async function fb_remove(pathKey) {
   console.log('%c fb_remove(): ', 
     'color: ' + COL_C + '; background-color: ' + COL_B + ';');
-  const dbReference = ref(getDatabase(), pathKey);
+  const DBREFRENCE = ref(getDatabase(), pathKey);
   console.log("Removing: " + pathKey)  
-    return remove(dbReference).then(() => {
+    return remove(DBREFRENCE).then(() => {
     }).catch((error) => {
         console.log("error" + error)
     });
@@ -234,8 +234,8 @@ function fb_sortedRead(pathKey) {
   console.log('%c fb_sortedRead(): ', 
   'color: ' + COL_C + '; background-color: ' + COL_B + ';');
 
-  const dbReference = query(ref(getDatabase(), pathKey), orderByValue());
-  return get(dbReference).then((snapshot) => {
+  const DBREFRENCE = query(ref(getDatabase(), pathKey), orderByValue());
+  return get(DBREFRENCE).then((snapshot) => {
     const SORTED = []
     if (snapshot.exists()) {
       snapshot.forEach((_child) => {
@@ -317,8 +317,8 @@ function fb_adminCommands(command, pathKey, data){
 //Output:N/A
 ////////////////////////////////
 function fb_onValue(path, callback){
-  const dbReference = ref(getDatabase(), path)
-  onValue(dbReference, (snapshot) => {
+  const DBREFRENCE = ref(getDatabase(), path)
+  onValue(DBREFRENCE, (snapshot) => {
     callback(snapshot.val())
   })
 }

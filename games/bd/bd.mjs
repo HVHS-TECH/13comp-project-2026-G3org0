@@ -36,10 +36,10 @@ var adminVal;
 
 
 if ((localStorage.getItem("userDetails") !== null) && (localStorage.getItem("adminVal") !== null)) {
-	const storedDetailsUsers = localStorage.getItem("userDetails");
-	const storedDetailsAdmin = localStorage.getItem("adminVal");
-	userDetails = JSON.parse(storedDetailsUsers);
-	adminVal = JSON.parse(storedDetailsAdmin);
+	const STOREDDETAILUSERS = localStorage.getItem("userDetails");
+	const STOREDDETAILSADMIN = localStorage.getItem("adminVal");
+	userDetails = JSON.parse(STOREDDETAILUSERS);
+	adminVal = JSON.parse(STOREDDETAILSADMIN);
 }
 
 /////Games
