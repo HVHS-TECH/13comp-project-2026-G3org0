@@ -35,7 +35,7 @@ import {
 /**************************************************************/
 // Main code
 /**************************************************************/
-if (document.getElementById("sb_title") != null) {
+if (document.getElementById("sb_title")) {
     const TITLE = document.getElementById("sb_title")
     TITLE.textContent = userDetails.gameName;
 }

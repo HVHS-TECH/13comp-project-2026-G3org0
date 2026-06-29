@@ -36,7 +36,7 @@ document.getElementById("regForm").addEventListener("submit", (result) => {
     var isFormValid = true;
     if (GAMENAME != ""){} else {
         isFormValid = false;
-        alert("Invalid GameName");
+        alert("Invalid Game Name");
     }
     if (AGE > 12 && AGE < 100){} else {
         isFormValid = false;

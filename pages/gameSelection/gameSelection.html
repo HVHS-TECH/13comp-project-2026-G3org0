@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- stylesheets *******************************************-->
     <link rel="stylesheet" type="text/css" href="https://www.w3schools.com/w3css/4/w3.css">
-    <!-- <link rel="stylesheet" type="text/css" href="/style.css"> -->
+    <link rel="stylesheet" type="text/css" href="/style.css">
     <link href='https://fonts.googleapis.com/css?family=M PLUS Code Latin' rel='stylesheet'>
 
 
@@ -23,11 +23,23 @@
     <header>
         <h1 id="m_title">Game Selection</h1>
     </header>
+            <side-bar id="side-bar">
+            <a id="sb_title">"Player name"</a>
+            <button class="sb_button" onclick="fb_Logout()" >Log Out</button>
+        </side-bar>
+        
+        <info-bar class="info-bar">
+            <a id="ib_title">"Game name"</a>
+            <a class="ib_element" id = "ib_marker">LeaderBoard</a>
+            <a class="ib_element" id="leaderBoard"> </a>
+            <button class="ib_element" id="ib_playButton" style="margin-top:8%;">Play</button>
+        </info-bar>
+
 
         <section>
             <div class="m_container">
-                <button onclick="window.location.href='../../games/bd/bd.html'">Blob Defenders</button>  
-                <button onclick="window.location.href='../../games/gtn/gtn.html'">Guess the Number</button>  
+                <button id ="bdButton" onclick="ib_loadGame('bd')">Blob Defenders</button>
+                <button id="gtnButton" onclick="ib_loadGame('gtn')">Guess the Number</button>  
             </div>
         </section>
         

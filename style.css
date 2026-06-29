@@ -3,12 +3,12 @@
 /*----------------------------------------------------------*/
 :root {
   --text: #ffffff;
-  --sideBarColor:  rgb(99, 0, 152);
-  --infoBarColor:  rgb(99, 0, 152);
-  --navColor: #ffe5c0;
-  --backgroundColor: #fff4e5;
-  --buttonColor:  rgb(223, 113, 24);
-  --hovButtonColor:  rgb(214, 141, 76);
+  --sideBarColor:  rgb(106, 27, 154);
+  --infoBarColor:  rgb(106, 27, 154);
+  --navColor: #f3d9f7;
+  --backgroundColor: #fbeef9;
+  --buttonColor:  rgb(201, 219, 160);
+  --hovButtonColor:  rgb(179, 201, 138);
 }
 
 body {
