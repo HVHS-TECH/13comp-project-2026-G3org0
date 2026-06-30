@@ -26,24 +26,34 @@ import {fb_adminCommands,} from '../../Fb_io.mjs';
 /**************************************************************/
 document.getElementById("adminCommand").addEventListener("submit", function(result) {
     result.preventDefault();
-    if(result.target.command.value != ""){
-        if(result.target.location.value != ""){
-            if(result.target.data.value == "" && result.target.command.value == "write"){
-                alert("Invalid Data")
-            } else {
-                if (Number(result.target.data.value) != NaN){
-                    fb_adminCommands(result.target.command.value, result.target.location.value, Number(result.target.data.value));
-                } else {
-                    fb_adminCommands(result.target.command.value, result.target.location.value, result.target.data.value);
-                }
-            }
-        } else {
-            alert("Invalid Location")
+    
+    if (result.target.location.value == "") {
+        alert("Invalid Location");
+        return;}
+
+    if (result.target.command.value == "") {
+        alert("Invalid Command");
+        return;}
+        
+    if (result.target.command.value == "write") {
+        if (result.target.data.value == "") {
+            alert("Invalid Data");
+            return;
         }
-    } else {
-        alert("Invalid Command")
+
+        var data;
+        if (isNaN(Number(result.target.data.value))){
+            data = result.target.data.value;
+        } else {
+            data = Number(result.target.data.value);
+        }
+        fb_adminCommands(result.target.command.value, result.target.location.value, data);
     }
-});
+
+    if (result.target.command.value == "read") {
+        fb_adminCommands(result.target.command.value, result.target.location.value);
+    }
+})
 /**************************************************************/
 //   END OF CODE
 /**************************************************************/

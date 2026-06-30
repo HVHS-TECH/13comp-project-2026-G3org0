@@ -38,15 +38,15 @@ sb_checkForAdminAddButton();
 //When: main
 //Job: if a user is admin and creates a button that links to the admin pages
 ////////////////////////////////
-function sb_checkForAdminAddButton(){
-    if(adminVal){
+async function sb_checkForAdminAddButton(){
+    if(await fb_readRecords("adminUsers/" + userDetails.uid) == true){
         const adminButton = document.createElement("button");
         adminButton.className = "sb_button";
         adminButton.textContent = "Admin";
         adminButton.addEventListener("click", function() {
             window.location.href = "../admin/admin.html";
         });
-    //document.querySelector("side-bar").appendChild(adminButton);
+    document.querySelector("side-bar").appendChild(adminButton);
     }
 }
 ///////////////////////////////////

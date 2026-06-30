@@ -302,7 +302,7 @@ function fb_adminCommands(command, pathKey, data){
     console.log(command)
     if(command == "read"){
       fb_readRecords(pathKey).then((snapshot) => {
-        alert(JSON.stringify(snapshot.val(), null, 2));
+        alert(JSON.stringify(snapshot, null, 2));
       })
     } else if(command == "write"){
       fb_writeRecords(pathKey, data)
