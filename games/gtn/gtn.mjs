@@ -84,7 +84,7 @@ function addJoinListener() {
 async function returnToMenu() {
     await fb_remove("gameList/gtn/lobbies/"+ lobbyDetails.LOBBY_ID);
     sessionStorage.removeItem("lobbyDetails");
-    window.location.href='./gtn.html'
+    window.location.href='./gtnGame.html'
 }
 
 ///////////////////////////////////

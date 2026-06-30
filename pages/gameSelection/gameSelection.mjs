@@ -78,7 +78,7 @@ function ib_updateInfoBar(game){
             MARKER.textContent = "LeaderBoard"
             PLAYBUTTON.textContent = "Play"
             PLAYBUTTON.addEventListener('click', function() {
-            window.location.href = "../../games/" + game + "/" + game + ".html" 
+            window.location.href = "../../games/" + game + "/" + game + "Game.html" 
             });
         } else {
             MARKER.textContent = "WORK IN PROGRESS";
