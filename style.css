@@ -128,8 +128,10 @@ button {
   margin: 7px 2px;
 }
 
+
 button:hover {
   background-color: var(--hovButtonColor);
+  
 }
 
 /*-----------------------------------------------------------*
