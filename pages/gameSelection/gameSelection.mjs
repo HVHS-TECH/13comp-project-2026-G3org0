@@ -56,10 +56,10 @@ function sb_checkForAdminAddButton(){
 ////////////////////////////////
 function ib_loadGame(game){
     ib_updateInfoBar(game);
-    //ib_lb_loadResults(game).then((leaderBoard) => {
-    //    console.log(leaderBoard)
-    //    ib_lb_createTable(leaderBoard)
-    //})
+    ib_lb_loadResults(game).then((leaderBoard) => {
+        console.log(leaderBoard)
+        ib_lb_createTable(leaderBoard)
+    })
 }
 ///////////////////////////////////
 //Job: Updates Info Bar to display games details exludes leaderboard
@@ -72,9 +72,9 @@ function ib_updateInfoBar(game){
         const MARKER = document.getElementById("ib_marker")
         const PLAYBUTTONOLD = document.getElementById("ib_playButton")
         const PLAYBUTTON = PLAYBUTTONOLD.cloneNode(true);
-        TITLE.textContent = gameDetails.val().name;
+        TITLE.textContent = gameDetails.name;
         PLAYBUTTONOLD.parentNode.replaceChild(PLAYBUTTON, PLAYBUTTONOLD);
-        if(gameDetails.val().ready == true){
+        if(gameDetails.ready == true){
             MARKER.textContent = "LeaderBoard"
             PLAYBUTTON.textContent = "Play"
             PLAYBUTTON.addEventListener('click', function() {
@@ -97,7 +97,7 @@ function ib_lb_loadResults(game) {
             leaderboardEntries.map(entry => {
                 if(entry.key != "(WIP)"){
                     return fb_readRecords("userDetails/" + entry.key + "/gameName").then(_name => {
-                        const NAME = _name.val();
+                        const NAME = _name;
                         console.log(NAME);
                         entry.key = NAME;
                     });

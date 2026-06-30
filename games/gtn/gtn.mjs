@@ -39,10 +39,10 @@ if (sessionStorage.getItem("lobbyDetails") != null) {
 ////////////////////////////////
 async function hostGame() {
     const LOBBY_ID = Math.floor(Math.random() * 10000);
-    if (await fb_readRecords("lobbies/" + LOBBY_ID) == null) {
-        await fb_writeRecords("lobbies/" + LOBBY_ID + "/users/" + userDetails.uid, userDetails.gameName);
-        await fb_writeRecords("lobbies/" + LOBBY_ID + "/" + LOBBY_ID + "/", "lobby");
-        lobbyDetails = await fb_readRecords("lobbies/" + LOBBY_ID)
+    if (await fb_readRecords("gameList/gtn/lobbies/" + LOBBY_ID) == null) {
+        await fb_writeRecords("gameList/gtn/lobbies/" + LOBBY_ID + "/users/" + userDetails.uid, userDetails.gameName);
+        await fb_writeRecords("gameList/gtn/lobbies/" + LOBBY_ID + "/" + LOBBY_ID + "/", "lobby");
+        lobbyDetails = await fb_readRecords("gameList/gtn/lobbies/" + LOBBY_ID)
         lobbyDetails.lobbyID = LOBBY_ID;
         sessionStorage.setItem("lobbyDetails", JSON.stringify(lobbyDetails));
         window.location.href='./gtnGame.html'; 
@@ -58,18 +58,18 @@ function addJoinListener() {
     document.getElementById("joinLobby").addEventListener("submit", async (result) => {
         result.preventDefault();
 
-        if (await fb_readRecords("lobbies/" + result.target.lobbyCode.value) == null) {
+        if (await fb_readRecords("gameList/gtn/lobbies/" + result.target.lobbyCode.value) == null) {
             document.getElementById("joinFeedBack").innerHTML = "Lobby not found, try again";
             return;
         }
 
-        const RANDOMUID = Object.keys(await fb_readRecords("lobbies/" + joinLobby.lobbyCode.value + "/users/"))[Math.floor(Math.random() * 2)];
-        await fb_writeRecords("lobbies/" + joinLobby.lobbyCode.value + "/users/" + userDetails.uid, userDetails.gameName);
-        await fb_writeRecords("lobbies/" + joinLobby.lobbyCode.value + "/feedBack", "Nothing to report yet");
-        await fb_writeRecords("lobbies/" + joinLobby.lobbyCode.value + "/turn/", RANDOMUID);       
-        await fb_writeRecords("lobbies/" + joinLobby.lobbyCode.value + "/" + joinLobby.lobbyCode.value +"/", "game");
-        await fb_writeRecords("lobbies/" + joinLobby.lobbyCode.value + "/num/", Math.floor(Math.random() * 101));
-        lobbyDetails = await fb_readRecords("lobbies/" + joinLobby.lobbyCode.value);
+        const RANDOMUID = Object.keys(await fb_readRecords("gameList/gtn/lobbies/" + joinLobby.lobbyCode.value + "/users/"))[Math.floor(Math.random() * 2)];
+        await fb_writeRecords("gameList/gtn/lobbies/" + joinLobby.lobbyCode.value + "/users/" + userDetails.uid, userDetails.gameName);
+        await fb_writeRecords("gameList/gtn/lobbies/" + joinLobby.lobbyCode.value + "/feedBack", "Nothing to report yet");
+        await fb_writeRecords("gameList/gtn/lobbies/" + joinLobby.lobbyCode.value + "/turn/", RANDOMUID);       
+        await fb_writeRecords("gameList/gtn/lobbies/" + joinLobby.lobbyCode.value + "/" + joinLobby.lobbyCode.value +"/", "game");
+        await fb_writeRecords("gameList/gtn/lobbies/" + joinLobby.lobbyCode.value + "/num/", Math.floor(Math.random() * 101));
+        lobbyDetails = await fb_readRecords("gameList/gtn/lobbies/" + joinLobby.lobbyCode.value);
 
         lobbyDetails.lobbyID = Object.keys(lobbyDetails)[0];
         sessionStorage.setItem("lobbyDetails", JSON.stringify(lobbyDetails));
@@ -82,7 +82,7 @@ function addJoinListener() {
 //removes lobby from database. removes lobbyDetails from session storage. sends user to menu
 ////////////////////////////////
 async function returnToMenu() {
-    await fb_remove("lobbies/"+ lobbyDetails.LOBBY_ID);
+    await fb_remove("gameList/gtn/lobbies/"+ lobbyDetails.LOBBY_ID);
     sessionStorage.removeItem("lobbyDetails");
     window.location.href='./gtn.html'
 }
@@ -102,7 +102,7 @@ function findPartner(){
 //listens for changes in the lobby and updates the page accordingly
 ////////////////////////////////
 async function usersChange(){
-    const SNAPSHOT = await fb_readRecords("lobbies/" + lobbyDetails.lobbyID);
+    const SNAPSHOT = await fb_readRecords("gameList/gtn/lobbies/" + lobbyDetails.lobbyID);
     lobbyDetails = { ...SNAPSHOT, lobbyID: Object.keys(SNAPSHOT)[0] };
     findPartner();
     document.getElementById("partnerLine").innerHTML = lobbyDetails.users[lobbyDetails.partner] + " :: " + lobbyDetails.lobbyID;
@@ -137,26 +137,26 @@ async function guessNumber(result){
 
     if (NUM == lobbyDetails.num){
         feedBackLine.innerHTML = "You won, Congrats!!  :)" + "    (" + lobbyDetails.num + ")";
-        fb_writeRecords("lobbies/" + lobbyDetails.lobbyID + "/feedBack", "They won :(    (" + lobbyDetails.num + ")");
-        fb_writeRecords("lobbies/" + lobbyDetails.lobbyID + "/" + lobbyDetails.lobbyID, "finished");
+        fb_writeRecords("gameList/gtn/lobbies/" + lobbyDetails.lobbyID + "/feedBack", "They won :(    (" + lobbyDetails.num + ")");
+        fb_writeRecords("gameList/gtn/lobbies/" + lobbyDetails.lobbyID + "/" + lobbyDetails.lobbyID, "finished");
     } else if (NUM > lobbyDetails.num){
         feedBackLine.innerHTML = "Your guess was too high!";
-        fb_writeRecords("lobbies/" + lobbyDetails.lobbyID + "/feedBack", "They guessed too high");
+        fb_writeRecords("gameList/gtn/lobbies/" + lobbyDetails.lobbyID + "/feedBack", "They guessed too high");
     } else {
         feedBackLine.innerHTML = "Your guess was too low!";
-        fb_writeRecords("lobbies/" + lobbyDetails.lobbyID + "/feedBack", "They guessed too low");
+        fb_writeRecords("gameList/gtn/lobbies/" + lobbyDetails.lobbyID + "/feedBack", "They guessed too low");
     }
 
-    fb_writeRecords("lobbies/" + lobbyDetails.lobbyID + "/turn", lobbyDetails.partner);
+    fb_writeRecords("gameList/gtn/lobbies/" + lobbyDetails.lobbyID + "/turn", lobbyDetails.partner);
 }
 
 ///////////////////////////////////
 //listens for changes in the turn and feedback and updates the page 
 ////////////////////////////////
 async function turnChange(){
-    lobbyDetails.turn = await fb_readRecords("lobbies/" + lobbyDetails.lobbyID + "/turn");
-    lobbyDetails.feedBack = await fb_readRecords("lobbies/" + lobbyDetails.lobbyID + "/feedBack");
-    lobbyDetails[lobbyDetails.lobbyID] = await fb_readRecords("lobbies/" + lobbyDetails.lobbyID + "/" + lobbyDetails.lobbyID);
+    lobbyDetails.turn = await fb_readRecords("gameList/gtn/lobbies/" + lobbyDetails.lobbyID + "/turn");
+    lobbyDetails.feedBack = await fb_readRecords("gameList/gtn/lobbies/" + lobbyDetails.lobbyID + "/feedBack");
+    lobbyDetails[lobbyDetails.lobbyID] = await fb_readRecords("gameList/gtn/lobbies/" + lobbyDetails.lobbyID + "/" + lobbyDetails.lobbyID);
         if (lobbyDetails.turn == null){
             turnLine.innerHTML = "";
         } else if (lobbyDetails.turn == userDetails.uid){
@@ -180,8 +180,8 @@ document.addEventListener("DOMContentLoaded", () => {
         feedBackLine = document.getElementById("feedbackLine");
         turnLine = document.getElementById("turnLine");
 
-        fb_onValue("lobbies/" + lobbyDetails.lobbyID + "/num", usersChange);
-        fb_onValue("lobbies/" + lobbyDetails.lobbyID + "/" + "turn", turnChange);
+        fb_onValue("gameList/gtn/lobbies/" + lobbyDetails.lobbyID + "/num", usersChange);
+        fb_onValue("gameList/gtn/lobbies/" + lobbyDetails.lobbyID + "/" + "turn", turnChange);
         document.getElementById("guessNum").addEventListener('submit', guessNumber);
     }
 });
