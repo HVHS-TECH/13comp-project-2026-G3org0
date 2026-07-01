@@ -26,32 +26,35 @@ body {
   display: flex;
   flex-direction: column;
   list-style-type: none;
-  padding: 10px 15px;
-  width: 20%;
+  padding: 12px 10px;
+  width: 19%;
   left: 0px;
   position: fixed;
   height: 100%;
   overflow: auto;
-  font-size: 20px;
+  font-size: 19px;
   color: var(--text);
   align-items: center;
 }
 
 #sb_title {
-  padding: 30px 1px;
-  font-size: 35px;
+  padding: 25px 1px 35px;
+  font-size: 33px;
 }
 
 
 .sb_element {
   font-family:'M PLUS Code Latin';
-  padding: 10px 15px;
-  margin: 7px 2px;
-  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 14px;
+  margin: 6px 0 8px;
+  border-radius: 5px;
   color: var(--text);
-  background-color: var(--buttonColor);;
-  transition: background-color 0.3s;
-  width: 220px;
+  background-color: var(--buttonColor);
+  transition: background-color 0.25s ease;
+  width: 210px;
 }
 
 .info-bar {
@@ -60,78 +63,78 @@ body {
   flex-direction: column;
   list-style-type: none;
   margin: 0;
-  padding: 4px;
-  width: 20%;
+  padding: 6px 4px;
+  width: 21%;
   right: 0px;
   position: fixed;
   height: 100%;
   overflow: auto;
-  font-size: 25px;
+  font-size: 24px;
   color: var(--text);
   align-items: center;
 }
 #ib_title {
-  padding: 30px 1px;
-  font-size: 35px;
+  padding: 25px 1px 35px;
+  font-size: 33px;
 }
 .ib_element {
-  padding: 15px;
+  padding: 12px 15px;
 }
 
 #m_title {
   font-family:'M PLUS Code Latin';
-  font-size: 60px;
+  font-size: 58px;
 }
 
 header {
   background-color: var(--navColor);
-  padding:17px 55px;
-  display:flex;
-  justify-content:center;
+  padding: 15px 50px;
+  display: flex;
+  justify-content: center;
 }
 
 #m_subTitle {
   font-family:'M PLUS Code Latin';
-  font-size: 45px;
+  font-size: 42px;
 }
 
 subHeader {
-  display:flex;
-  justify-content:center;
+  display: flex;
+  justify-content: center;
 }
 
 
 main {
-  margin-left:20%; 
-  margin-right:20%;
-  padding:1px 10px;
+  margin-left: 19%;
+  margin-right: 21%;
+  padding: 0px 12px;
 }
 
 .m_container {
-  padding: 45px;
+  padding: 40px 45px;
   display: flex;
-  gap: 20px;
+  flex-wrap: wrap;
+  gap: 18px;
   justify-content: center;
-  }
+}
 
 button {
-  padding: 10px 20px;
+  padding: 9px 18px;
   font-size: 16px;
   cursor: pointer;
   border: none;
-  border-radius: 7px;
-  background-color: var(--buttonColor);;
+  border-radius: 5px;
+  background-color: var(--buttonColor);
   color: var(--text);
-  transition: background-color 0.3s;
-  width: 220px;
+  transition: background-color 0.25s ease;
+  width: 210px;
   font-family:'M PLUS Code Latin';
-  margin: 7px 2px;
+  margin: 6px 0 8px;
 }
 
 
 button:hover {
   background-color: var(--hovButtonColor);
-  
 }
 
 /*-----------------------------------------------------------*

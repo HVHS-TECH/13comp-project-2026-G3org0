@@ -45,7 +45,7 @@ async function hostGame() {
         lobbyDetails = await fb_readRecords("gameList/gtn/lobbies/" + LOBBY_ID)
         lobbyDetails.lobbyID = LOBBY_ID;
         sessionStorage.setItem("lobbyDetails", JSON.stringify(lobbyDetails));
-        window.location.href='./gtnGame.html'; 
+        window.location.href='./gtnLobby.html'; 
     } else {
         hostGame();
     }
@@ -57,34 +57,37 @@ async function hostGame() {
 function addJoinListener() {
     document.getElementById("joinLobby").addEventListener("submit", async (result) => {
         result.preventDefault();
+        const LOBBY_CODE = result.target.lobbyCode.value;
 
-        if (await fb_readRecords("gameList/gtn/lobbies/" + result.target.lobbyCode.value) == null) {
+        const EXISTING = await fb_readRecords("gameList/gtn/lobbies/" + LOBBY_CODE);
+        if (EXISTING == null) {
             document.getElementById("joinFeedBack").innerHTML = "Lobby not found, try again";
             return;
         }
 
-        const RANDOMUID = Object.keys(await fb_readRecords("gameList/gtn/lobbies/" + joinLobby.lobbyCode.value + "/users/"))[Math.floor(Math.random() * 2)];
-        await fb_writeRecords("gameList/gtn/lobbies/" + joinLobby.lobbyCode.value + "/users/" + userDetails.uid, userDetails.gameName);
-        await fb_writeRecords("gameList/gtn/lobbies/" + joinLobby.lobbyCode.value + "/feedBack", "Nothing to report yet");
-        await fb_writeRecords("gameList/gtn/lobbies/" + joinLobby.lobbyCode.value + "/turn/", RANDOMUID);       
-        await fb_writeRecords("gameList/gtn/lobbies/" + joinLobby.lobbyCode.value + "/" + joinLobby.lobbyCode.value +"/", "game");
-        await fb_writeRecords("gameList/gtn/lobbies/" + joinLobby.lobbyCode.value + "/num/", Math.floor(Math.random() * 101));
-        lobbyDetails = await fb_readRecords("gameList/gtn/lobbies/" + joinLobby.lobbyCode.value);
+        const HOST_UID = Object.keys(EXISTING.users)[0];
+        const RANDOMUID = Math.random() < 0.5 ? HOST_UID : userDetails.uid;
 
-        lobbyDetails.lobbyID = Object.keys(lobbyDetails)[0];
+        await fb_writeRecords("gameList/gtn/lobbies/" + LOBBY_CODE + "/users/" + userDetails.uid, userDetails.gameName);
+        await fb_writeRecords("gameList/gtn/lobbies/" + LOBBY_CODE + "/feedBack", "Nothing to report yet");
+        await fb_writeRecords("gameList/gtn/lobbies/" + LOBBY_CODE + "/turn/", RANDOMUID);
+        await fb_writeRecords("gameList/gtn/lobbies/" + LOBBY_CODE + "/" + LOBBY_CODE + "/", "game");
+        await fb_writeRecords("gameList/gtn/lobbies/" + LOBBY_CODE + "/num/", Math.floor(Math.random() * 101));
+
+        lobbyDetails = await fb_readRecords("gameList/gtn/lobbies/" + LOBBY_CODE);
+        lobbyDetails.lobbyID = LOBBY_CODE;
         sessionStorage.setItem("lobbyDetails", JSON.stringify(lobbyDetails));
 
-        window.location.href = './gtnGame.html';
+        window.location.href = './gtnLobby.html';
     });
 }
-
 ///////////////////////////////////
 //removes lobby from database. removes lobbyDetails from session storage. sends user to menu
 ////////////////////////////////
 async function returnToMenu() {
     await fb_remove("gameList/gtn/lobbies/"+ lobbyDetails.LOBBY_ID);
     sessionStorage.removeItem("lobbyDetails");
-    window.location.href='./gtnGame.html'
+    window.location.href='./gtn.html'
 }
 
 ///////////////////////////////////
@@ -119,7 +122,15 @@ async function usersChange(){
 async function guessNumber(result){
     result.preventDefault();
     const NUM = result.target.number.value;
+    var score = await fb_readRecords("gameList/gtn/scores/" + userDetails.uid);
+    if (score == null){
+        score = 0;
+    }
 
+    if (NUM < 0 || NUM > 100){
+        feedBackLine.innerHTML = "Invalid number, must be between 0 and 100";
+        return;
+    }
     if (lobbyDetails[lobbyDetails.lobbyID] == "finished"){
         feedBackLine.innerHTML = "Game has finished, return to menu and start a new game";
         return;
@@ -137,8 +148,9 @@ async function guessNumber(result){
 
     if (NUM == lobbyDetails.num){
         feedBackLine.innerHTML = "You won, Congrats!!  :)" + "    (" + lobbyDetails.num + ")";
-        fb_writeRecords("gameList/gtn/lobbies/" + lobbyDetails.lobbyID + "/feedBack", "They won :(    (" + lobbyDetails.num + ")");
-        fb_writeRecords("gameList/gtn/lobbies/" + lobbyDetails.lobbyID + "/" + lobbyDetails.lobbyID, "finished");
+        await fb_writeRecords("gameList/gtn/lobbies/" + lobbyDetails.lobbyID + "/feedBack", "They won :(    (" + lobbyDetails.num + ")");
+        await fb_writeRecords("gameList/gtn/lobbies/" + lobbyDetails.lobbyID + "/" + lobbyDetails.lobbyID, "finished");
+        await fb_writeRecords("gameList/gtn/scores/" + userDetails.uid, await fb_readRecords("gameList/gtn/scores/" + userDetails.uid) + 1);
     } else if (NUM > lobbyDetails.num){
         feedBackLine.innerHTML = "Your guess was too high!";
         fb_writeRecords("gameList/gtn/lobbies/" + lobbyDetails.lobbyID + "/feedBack", "They guessed too high");
@@ -171,7 +183,7 @@ async function turnChange(){
 //listens for the page to load and then either adds the join listener or sets up the game page depending on if the user is hosting or joining
 ////////////////////////////////
 document.addEventListener("DOMContentLoaded", () => {
-    if (!window.location.href.includes("/gtnGame")) {
+    if (!window.location.href.includes("/gtnLobby")) {
         addJoinListener();
     } else {
         findPartner();
