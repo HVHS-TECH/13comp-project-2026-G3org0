@@ -47,11 +47,8 @@ export let userDetails = {
   age:'n/a',
 };
 
-export var adminVal;
-
 if (sessionStorage.getItem("userDetails") != null) {
   userDetails = JSON.parse(sessionStorage.getItem("userDetails"));
-  adminVal = JSON.parse(sessionStorage.getItem("adminVal"));
 }
 /**************************************************************/
 // Functions
@@ -86,34 +83,30 @@ if (sessionStorage.getItem("userDetails") != null) {
 //Input: N/A
 //Output: if user is registerd in database (true/false)
 ////////////////////////////////
-function fb_authenticate(){
+async function fb_authenticate(){
   console.log('%c fb_authenticate(): ', 
   'color: ' + COL_C + '; background-color: ' + COL_B + ';');
   const AUTH = getAuth();
   const PROVIDER = new GoogleAuthProvider();
   PROVIDER.setCustomParameters({});
 
-  return signInWithPopup(AUTH, PROVIDER).then((result) => {
+  return await signInWithPopup(AUTH, PROVIDER).then(async (result) => {
     console.log("Autherising");
     userDetails.displayName = result.user.displayName
     userDetails.email = result.user.email
     userDetails.photoUrl = result.user.photoURL
     userDetails.uid = result.user.uid
-    fb_readRecords("adminUsers/" + userDetails.uid).then((snapshot) => {
-      adminVal = (snapshot != null);
-      sessionStorage.setItem("adminVal", adminVal);
-      console.log(JSON.parse(sessionStorage.getItem("adminVal")));
-    });
-        
+    userDetails.admin = (await fb_readRecords("adminUsers/" + userDetails.uid))
+
     sessionStorage.setItem("userDetails", JSON.stringify(userDetails));
     console.log(result)
-    return fb_readRecords("userDetails/" + userDetails.uid).then((snapshot) => {
-    return snapshot !== null;
-  })
-  .catch((error) => {
-    console.log("error");
-  });
-  })
+    return await fb_readRecords("userDetails/" + userDetails.uid).then((snapshot) => {
+      return snapshot !== null;
+    })
+    .catch((error) => {
+      console.log("error", error);
+    });
+  });     
 }
 
 ///////////////////////////////////
@@ -133,7 +126,7 @@ function fb_detectLoginChange() {
       console.log("user Out");
     }
   }, (error) => {
-    console.log("error");
+    console.log("error", error);
   });
   
 }
@@ -173,7 +166,7 @@ function fb_writeRecords(pathKey, data) {
   console.log("writing: " + data + "  To " + pathKey)  
     return set(REF, data).then(() => {
     }).catch((error) => {
-        console.log("error" + " :(")
+      console.log("error", error);
     });
 }
 
@@ -261,7 +254,10 @@ function fb_attemptLogIn() {
   fb_authenticate().then((active) => {
     if (active == true){
       fb_readRecords("/userDetails/" + userDetails.uid).then((snapshot) => {
-        userDetails = snapshot;
+        userDetails.gameName = snapshot.gameName;
+        userDetails.age = snapshot.age;
+        userDetails.gender = snapshot.gender;
+
         sessionStorage.setItem("userDetails", JSON.stringify(userDetails));
         window.location.href = './pages/gameSelection/gameSelection.html';
       })

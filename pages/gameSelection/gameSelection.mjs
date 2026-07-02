@@ -19,7 +19,7 @@ console.log('%c gameSelection.mjs',
 /**************************************************************/
 // Imports
 /**************************************************************/
-import {fb_readRecords,fb_sortedRead, adminVal, userDetails} from '../../Fb_io.mjs';
+import {fb_readRecords,fb_sortedRead, userDetails} from '../../Fb_io.mjs';
 /**************************************************************/
 // Window Functions
 /**************************************************************/
@@ -38,7 +38,7 @@ sb_checkForAdminAddButton();
 //Output:N/A
 ////////////////////////////////
 async function sb_checkForAdminAddButton(){
-    if(await fb_readRecords("adminUsers/" + userDetails.uid) == true){
+    if(userDetails.admin == true){
         const ADMINBTN = document.createElement("button");
         ADMINBTN.className = "sb_button";
         ADMINBTN.textContent = "Admin";
