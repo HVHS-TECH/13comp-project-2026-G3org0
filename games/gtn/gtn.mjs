@@ -136,30 +136,25 @@ async function opponentLeftCheck() {
 ///////////////////////////////////
 //takes the users guess and checks if its correct. updates the database with the result and changes the turn
 ////////////////////////////////
-async function guessNumber(result){
+async function guessNumber(result) {
     result.preventDefault();
-    if (isNaN(Number(result.target.number.value))) {
+
+    if (result.target.number.value.trim() === "" || isNaN(Number(result.target.number.value.trim()))) {
         feedBackLine.innerHTML = "Please enter a number";
         return;
     }
 
-    const NUM = Number(result.target.number.value);
-    var score = await fb_readRecords("gameList/gtn/scores/" + userDetails.uid);
-    if (score == null){
-        score = 0;
-    }
-    
-    if (NUM != 0){
-        if (NUM == "") {
-            feedBackLine.innerHTML = "Invalid number";
-            return;
-        }
-    }
-        
-    if (NUM <= -1 || NUM >= 101){
+    const NUM = Number(result.target.number.value.trim());
+    if (NUM < 0 || NUM > 100) {
         feedBackLine.innerHTML = "Invalid number, must be between 0 and 100";
         return;
     }
+
+    var score = await fb_readRecords("gameList/gtn/scores/" + userDetails.uid);
+    if (score == null) {
+        score = 0;
+    }
+    
     if (lobbyDetails[lobbyDetails.lobbyID] == "finished"){
         feedBackLine.innerHTML = "Game has finished, return to menu and start a new game";
         return;
