@@ -77,6 +77,7 @@ function ib_updateInfoBar(game){
         if(gameDetails.ready == true){
             MARKER.textContent = "LeaderBoard"
             PLAYBUTTON.textContent = "Play"
+            PLAYBUTTON.onclick = "";
             PLAYBUTTON.addEventListener('click', function() {
             window.location.href = "../../games/" + game + "/" + game + ".html" 
             });

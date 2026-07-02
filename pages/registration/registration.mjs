@@ -42,7 +42,7 @@ document.getElementById("regForm").addEventListener("submit", (result) => {
         isFormValid = false;
         alert("Age cannot be empty");
     } else if (isNaN(Number(result.target.age.value))) {
-        feedBackLine.innerHTML = "Please enter a number";
+        alert("Please enter a number");
         return;
     } else if (!(AGE >= 12 && AGE <= 100)){
         isFormValid = false;
@@ -51,7 +51,7 @@ document.getElementById("regForm").addEventListener("submit", (result) => {
     
     if (GENDER == "") {
         isFormValid = false;
-        alert("Invalid gender");
+        alert("must select a gender");
     }
 
     if(isFormValid){
