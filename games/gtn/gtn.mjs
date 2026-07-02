@@ -149,7 +149,7 @@ async function guessNumber(result){
         score = 0;
     }
 
-    if (NUM < 0 || NUM > 100){
+    if (NUM <= -1 || NUM >= 101){
         feedBackLine.innerHTML = "Invalid number, must be between 0 and 100";
         return;
     }
