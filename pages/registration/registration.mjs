@@ -21,6 +21,7 @@ function logout(){
     fb_Logout();
 }
 
+//////when the form is submitted, validate the input and if valid, send to database
 document.getElementById("regForm").addEventListener("submit", (result) => {
     result.preventDefault();
 

@@ -6,14 +6,7 @@
 //Term 2 2026
 
 //////////////////////Function Comments method
-//Name: Name of the function
-//When: (if called by function, name function)
-//		(if called in class, name class and methods)
-// 		(if called through draw loop, tree to find the code) EG.
-//			draw() {	(gameState == "play"){	\\	in the draw loop 	if gameState = "play"  Run this function
 //Job: What it does
-//Input: input parameters
-//Output: what it returns
 /////////////////////////////////
 /*******************************************************/
 
@@ -135,6 +128,7 @@ async function opponentLeftCheck() {
 
 ///////////////////////////////////
 //takes the users guess and checks if its correct. updates the database with the result and changes the turn
+//Input: (result) the form submittin
 ////////////////////////////////
 async function guessNumber(result) {
     result.preventDefault();

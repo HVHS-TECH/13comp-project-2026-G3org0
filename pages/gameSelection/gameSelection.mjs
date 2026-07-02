@@ -2,12 +2,10 @@
 // gameSelection.mjs
 // js entry for gameSelection.html
 // Written by <George Taylor>, Term 2 2026
-// All functions associated with the side bar (sb_), info bar (ib_) leaderBoard (lb_)
+// All functions associated with the side bar (sb_), info bar (ib_) LEADERBOARD (lb_)
 /**************************************************************/
 /*******************************************************/
 //////////////////////Function Comments method
-//Name: Name of the function
-//When: (if called by function, name function) (If called by function in main, main) (If called by html, html file)
 //Job: What it does
 //Input: input parameters
 //Output: what it returns
@@ -35,18 +33,19 @@ sb_checkForAdminAddButton();
 // Functions
 /**************************************************************/
 ///////////////////////////////////
-//When: main
 //Job: if a user is admin and creates a button that links to the admin pages
+//Input: N/A
+//Output:N/A
 ////////////////////////////////
 async function sb_checkForAdminAddButton(){
     if(await fb_readRecords("adminUsers/" + userDetails.uid) == true){
-        const adminButton = document.createElement("button");
-        adminButton.className = "sb_button";
-        adminButton.textContent = "Admin";
-        adminButton.addEventListener("click", function() {
+        const ADMINBTN = document.createElement("button");
+        ADMINBTN.className = "sb_button";
+        ADMINBTN.textContent = "Admin";
+        ADMINBTN.addEventListener("click", function() {
             window.location.href = "../admin/admin.html";
         });
-    document.querySelector("side-bar").appendChild(adminButton);
+    document.querySelector("side-bar").appendChild(ADMINBTN);
     }
 }
 ///////////////////////////////////
@@ -115,35 +114,31 @@ function ib_lb_loadResults(game) {
 }
 ///////////////////////////////////
 //Job: Creates a table for scoreboard
-//Input: (leaderBoard, (array of objects representing the scoreboard))
+//Input: product, (leaderBoard) (array of objects representing the scoreboard))
 //Output:N/A
 ////////////////////////////////
-function ib_lb_createTable(product, location) {
-  const leaderBoard = document.createElement("table");
-  const leaderBoardBody = document.createElement("tbody");
+function ib_lb_createTable(leaderBoard) {
+  const LEADERBOARDNEW = document.createElement("table");
 
-  for (let i = 0; i < product.length; i++) {
-    const row = document.createElement("tr");
+  for (let i = 0; i < leaderBoard.length; i++) {
+    const ROW = document.createElement("tr");
 
     for (let j = 0; j < 1; j++) {
-      const cell = document.createElement("td");
-      const cellText = document.createTextNode(product[i].key);
-      cell.appendChild(cellText);
-      row.appendChild(cell);
+      const CELL = document.createElement("td");
+      CELL.textContent = leaderBoard[i].key;
+      ROW.appendChild(CELL);
     }
 
-    const cell = document.createElement("td");
-    const cellText = document.createTextNode(product[i].value);
-    cell.appendChild(cellText);
-    row.appendChild(cell);
-    leaderBoardBody.appendChild(row);
+    const CELL = document.createElement("td");
+    CELL.textContent = leaderBoard[i].value;
+    ROW.appendChild(CELL);
+    LEADERBOARDNEW.appendChild(ROW);
   }
 
-  leaderBoard.appendChild(leaderBoardBody);
-  const LEADERBOARD = document.getElementById("leaderBoard")
-  LEADERBOARD.parentNode.replaceChild(leaderBoard, LEADERBOARD);
-  leaderBoard.setAttribute("border", "1");
-  leaderBoard.setAttribute("id", "leaderBoard");
+  const LEADERBOARDEOLD = document.getElementById("leaderBoard");
+  LEADERBOARDEOLD.parentNode.replaceChild(LEADERBOARDNEW, LEADERBOARDEOLD);
+  LEADERBOARDNEW.setAttribute("border", "1");
+  LEADERBOARDNEW.setAttribute("id", "leaderBoard");
 }
 /**************************************************************/
 //   END OF CODE

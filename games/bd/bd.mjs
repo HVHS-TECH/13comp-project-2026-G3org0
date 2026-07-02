@@ -3,7 +3,7 @@
 //Conatains all code for The blobdefenders
 //Blob defenders is shooting enemies before they can get to you
 ///writen by George Taylor 
-//Term 2 2026
+//Term 2 2025
 
 //////////////////////Function Comments method
 //Name: Name of the function
@@ -19,28 +19,8 @@
 
 
 //Imports
-import {fb_writeRecords, fb_readRecords}
+import {fb_writeRecords, fb_readRecords, userDetails}
     from '/Fb_io.mjs';
-
-///UserDetails
-let userDetails = {
-displayName:'n/a',
-email:'n/a',
-photoUrl:'n/a',
-uid:'n/a',
-topScore: 0,
-gender:'n/a',
-gameName:'n/a',}
-
-var adminVal;
-
-
-if ((localStorage.getItem("userDetails") !== null) && (localStorage.getItem("adminVal") !== null)) {
-	const STOREDDETAILUSERS = localStorage.getItem("userDetails");
-	const STOREDDETAILSADMIN = localStorage.getItem("adminVal");
-	userDetails = JSON.parse(STOREDDETAILUSERS);
-	adminVal = JSON.parse(STOREDDETAILSADMIN);
-}
 
 /////Games
 var gameState = "start";
@@ -542,11 +522,12 @@ async function spawnGameOverUi(){
 	UiArray.push(scoreSprite);
 
 	fb_readRecords("/gameList/bd/scores/" + userDetails.uid).then((snapshot) => {
-		if (snapshot.val() <= player.getScore()){
+		if (snapshot == null || snapshot < player.getScore()){
 			fb_writeRecords("/gameList/bd/scores/" + userDetails.uid, player.getScore())
 		} 
 	})
 }
+console.log(userDetails.uid);
 
 ///////////////////////////////////
 //Name:spawnGameUi()

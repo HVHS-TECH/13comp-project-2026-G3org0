@@ -43,7 +43,6 @@ export let userDetails = {
   email:'n/a',
   photoUrl:'n/a',
   uid:'n/a',
-  topScore: 0,
   gender:'n/a',
   age:'n/a',
 };

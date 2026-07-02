@@ -5,8 +5,6 @@
 /**************************************************************/
 /*******************************************************/
 //////////////////////Function Comments method
-//Name: Name of the function
-//When: (if called by function, name function)
 //Job: What it does
 //Input: input parameters
 //Output: what it returns
@@ -24,6 +22,11 @@ import {fb_adminCommands,} from '../../Fb_io.mjs';
 /**************************************************************/
 // Main code
 /**************************************************************/
+///////////////////////////////////
+//Job: handdles and verfys the submission of a admin command
+//Input: (result) the form submittin
+//Output: Returns array of objects representing the scoreboard
+////////////////////////////////
 document.getElementById("adminCommand").addEventListener("submit", function(result) {
     result.preventDefault();
     
