@@ -1,7 +1,7 @@
 /**************************************************************/
 // gameSelection.mjs
 // js entry for gameSelection.html
-// Written by <George Taylor>, Term 2 2025
+// Written by <George Taylor>, Term 2 2026
 // All functions associated with the side bar (sb_), info bar (ib_) leaderBoard (lb_)
 /**************************************************************/
 /*******************************************************/

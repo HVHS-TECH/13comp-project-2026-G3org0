@@ -13,20 +13,21 @@
 <body>
     
     <header>
-        <h1 id="title">Guesss The Number</h1>
+        <h1 id="title">Guess The Number</h1>
     </header>
+    <section id="gameBody">
 
       <h3 id="partnerLine"></h3>
       
-        <form id="guessNum" style="margin-left: 0%;">
-          <label for="number" style="margin-left:0px;">Type your number:</label><br>
-          <input type="number" id="number" name="number"><br>
-          <button type="submit" id="submit" value="submit" style="margin-left:0px;margin-right:0px;">Guess</button>
-        </form> <br>
+  <form id="guessNum">
+    <label for="number">Type your number:</label>
+    <input type="number" id="number" name="number">
+    <button type="submit" id="submit" value="submit">Guess</button>
+  </form>
 
-              <h3 id="feedbackLine"></h3>
-              <h3 id="turnLine"></h3>
-        <button onclick=returnToMenu()>Return To Menu </button> <br>
+  <h3 id="feedbackLine"></h3>
+  <h3 id="turnLine"></h3>
+  <button onclick="returnToMenu()">Return To Menu</button>
         
   <script type="module" src="./gtn.mjs"></script>
   <script type="module" src="../../pages/main/main.mjs"></script>

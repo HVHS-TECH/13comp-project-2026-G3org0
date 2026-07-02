@@ -3,7 +3,7 @@
 //Conatains all code for The guess the number game
 //the game involves taking turns to guess the numberuntil someone gets it
 ///writen by George Taylor 
-//Term 1 2025
+//Term 2 2026
 
 //////////////////////Function Comments method
 //Name: Name of the function
@@ -59,9 +59,14 @@ function addJoinListener() {
         result.preventDefault();
         const LOBBY_CODE = result.target.lobbyCode.value;
 
+        if (LOBBY_CODE === "" || isNaN(Number(LOBBY_CODE))) {
+            alert("that is not a number");
+            return;
+        }
+
         const EXISTING = await fb_readRecords("gameList/gtn/lobbies/" + LOBBY_CODE);
         if (EXISTING == null) {
-            document.getElementById("joinFeedBack").innerHTML = "Lobby not found, try again";
+            alert("Lobby does not exist");
             return;
         }
 
@@ -85,9 +90,9 @@ function addJoinListener() {
 //removes lobby from database. removes lobbyDetails from session storage. sends user to menu
 ////////////////////////////////
 async function returnToMenu() {
-    await fb_remove("gameList/gtn/lobbies/"+ lobbyDetails.LOBBY_ID);
+    await fb_remove("gameList/gtn/lobbies/" + lobbyDetails.lobbyID);
     sessionStorage.removeItem("lobbyDetails");
-    window.location.href='./gtn.html'
+    window.location.href = './gtn.html';
 }
 
 ///////////////////////////////////
@@ -117,17 +122,34 @@ async function usersChange(){
 }
 
 ///////////////////////////////////
+//listens for changes to the users list. if your partner is no longer in it, they've left the lobby, so send this user back to the gtn home page
+////////////////////////////////
+async function opponentLeftCheck() {
+    if (!lobbyDetails.partner) return; // partner hasn't joined yet, nothing to check
+    const USERS = await fb_readRecords("gameList/gtn/lobbies/" + lobbyDetails.lobbyID + "/users");
+    if (USERS == null || !(lobbyDetails.partner in USERS)) {
+        sessionStorage.removeItem("lobbyDetails");
+        window.location.href = './gtn.html';
+    }
+}
+
+///////////////////////////////////
 //takes the users guess and checks if its correct. updates the database with the result and changes the turn
 ////////////////////////////////
 async function guessNumber(result){
     result.preventDefault();
-    const NUM = result.target.number.value;
+    if (isNaN(Number(result.target.number.value))) {
+        feedBackLine.innerHTML = "Please enter a number";
+        return;
+    }
+
+    const NUM = Number(result.target.number.value);
     var score = await fb_readRecords("gameList/gtn/scores/" + userDetails.uid);
     if (score == null){
         score = 0;
     }
 
-    if (NUM < 0 || NUM > 100){
+    if (NUM <= 0 || NUM >= 100){
         feedBackLine.innerHTML = "Invalid number, must be between 0 and 100";
         return;
     }
@@ -174,7 +196,7 @@ async function turnChange(){
         } else if (lobbyDetails.turn == userDetails.uid){
             turnLine.innerHTML = "Your turn :: " + lobbyDetails.feedBack;
         } else {
-            turnLine.innerHTML = "Not your turn";
+            turnLine.innerHTML =    "Not your turn";
         }
     
 }
@@ -193,7 +215,8 @@ document.addEventListener("DOMContentLoaded", () => {
         turnLine = document.getElementById("turnLine");
 
         fb_onValue("gameList/gtn/lobbies/" + lobbyDetails.lobbyID + "/num", usersChange);
-        fb_onValue("gameList/gtn/lobbies/" + lobbyDetails.lobbyID + "/" + "turn", turnChange);
+        fb_onValue("gameList/gtn/lobbies/" + lobbyDetails.lobbyID + "/turn", turnChange);
+        fb_onValue("gameList/gtn/lobbies/" + lobbyDetails.lobbyID + "/users", opponentLeftCheck);
         document.getElementById("guessNum").addEventListener('submit', guessNumber);
     }
 });

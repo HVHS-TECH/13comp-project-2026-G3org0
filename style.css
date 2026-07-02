@@ -12,7 +12,7 @@
 }
 
 body {
-  font-family:'M PLUS Code Latin';
+  font-family:'Sono';
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -44,7 +44,7 @@ body {
 
 
 .sb_element {
-  font-family:'M PLUS Code Latin';
+  font-family:'Sono';
   display: flex;
   align-items: center;
   justify-content: center;
@@ -82,7 +82,7 @@ body {
 }
 
 #m_title {
-  font-family:'M PLUS Code Latin';
+  font-family:'Sono';
   font-size: 58px;
 }
 
@@ -94,7 +94,7 @@ header {
 }
 
 #m_subTitle {
-  font-family:'M PLUS Code Latin';
+  font-family:'Sono';
   font-size: 42px;
 }
 
@@ -128,7 +128,7 @@ button {
   color: var(--text);
   transition: background-color 0.25s ease;
   width: 210px;
-  font-family:'M PLUS Code Latin';
+  font-family:'Sono';
   margin: 6px 0 8px;
 }
 
@@ -137,6 +137,65 @@ button:hover {
   background-color: var(--hovButtonColor);
 }
 
+#gameBody {
+  max-width: 380px;
+  margin: 50px auto 0;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#partnerLine {
+  font-size: 22px;
+  margin: 0 0 30px;
+}
+
+#guessNum {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: 0;
+}
+
+#guessNum label {
+  font-size: 17px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+#guessNum input[type="number"] {
+  width: 220px;
+  padding: 10px 14px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 16px;
+  font-family: 'Sono';
+  text-align: center;
+}
+
+#guessNum button {
+  width: 220px;
+  margin: 0 0 30px;
+}
+
+#feedbackLine {
+  font-size: 20px;
+  margin: 0 0 10px;
+  min-height: 28px;
+}
+
+#turnLine {
+  font-size: 18px;
+  color: #555;
+  margin: 0 0 35px;
+}
+
+#gameBody > button {
+  width: 220px;
+}
 /*-----------------------------------------------------------*
   Firebase status div styling
 /*----------------------------------------------------------*/

@@ -3,7 +3,7 @@
 //Conatains all code for The blobdefenders
 //Blob defenders is shooting enemies before they can get to you
 ///writen by George Taylor 
-//Term 1 2025
+//Term 2 2026
 
 //////////////////////Function Comments method
 //Name: Name of the function

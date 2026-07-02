@@ -20,19 +20,15 @@ BODY
     <h1 id="title">Guess The Number</h1>
   </header>
   
-  <section>
-    
-      <form id="joinLobby">
-        
-        <!-- <label for="lobbyCode" ">Enter lobby code: </label> -->
-        <input type="text" id="lobbyCode" name="lobbyCode">
-        
-        <button type="submit" value="submit" id="submit">Submit</button>
-      </form>
-      
-      <button onclick=hostGame()>Host game</button> <br>
-      <button onclick="window.location.href='../../pages/gameSelection/gameSelection.html'">Exit</button>  
-    </section>
+  <section id="gameBody">
+    <form id="joinLobby">
+      <input type="text" id="lobbyCode" name="lobbyCode" placeholder="Lobby code">
+      <button type="submit" value="submit" id="submit">Submit</button>
+    </form>
+  
+    <button onclick="hostGame()">Host game</button>
+    <button onclick="window.location.href='../../pages/gameSelection/gameSelection.html'">Exit</button>
+  </section>
         
   </body>
   </html>

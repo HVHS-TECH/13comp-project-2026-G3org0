@@ -1,7 +1,7 @@
 //**************************************************************/
 // fb_io.mjs
 // Generalised firebase routines
-// Written by <George Taylor>, Term 2 2025
+// Written by <George Taylor>, Term 2 2026
 //
 // All functions begin with fb_
 /**************************************************************/
@@ -148,7 +148,7 @@ function fb_detectLoginChange() {
 function fb_Logout() {
   //console.log('%c fb_Logout():', 
   //'color: ' + COL_C + '; background-color: ' + COL_B + ';');
-
+  alert("Logged out")
   
   const AUTH = getAuth();
     signOut(AUTH).then(() => {
